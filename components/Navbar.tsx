@@ -18,6 +18,7 @@ export default function Navbar() {
           <a href="#portfolio" className="text-gray-600 hover:text-gray-900 transition-colors">Portfolio</a>
           <a href="#about" className="text-gray-600 hover:text-gray-900 transition-colors">About me</a>
           <a href="#testimonials" className="text-gray-600 hover:text-gray-900 transition-colors">Testimonials</a>
+          <a href="#certificates" className="text-gray-600 hover:text-gray-900 transition-colors">Certificates</a>
         </div>
 
         {/* Contact Button */}

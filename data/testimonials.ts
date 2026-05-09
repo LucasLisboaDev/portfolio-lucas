@@ -7,9 +7,9 @@ export const testimonials = [
     image: undefined,
   },
   {
-    name: "Dianne Russell",
-    company: "Starbucks",
-    quote: "Lucas brought exceptional technical expertise and a user-centric approach to our project. His ability to translate complex requirements into elegant solutions is remarkable.",
+    name: "Daniel Pena",
+    company: "CTO, Spark Founders (Encountr)",
+    quote: "We were proud to have Lucas as an AI Developer intern at Spark Founders. During the internship, he contributed meaningfully to the design, implementation, and fine-tuning of AI systems used for networking and matchmaking within our platform. From integrating large language models to building workflows for user intent detection and smart automation, Lucas demonstrated both technical expertise and creativity. Their ability to research, test, and iterate quickly helped us accelerate key features and refine our AI matching system. We're grateful for their time with us and highly recommend them to any team looking to innovate with AI technologies.",
     rating: 5,
     image: undefined,
   },

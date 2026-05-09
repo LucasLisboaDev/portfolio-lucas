@@ -64,16 +64,47 @@ export default function About() {
 
             {/* First Paragraph */}
             <p className="text-gray-600 text-lg leading-relaxed">
-              I'm a U.S. Permanent Resident and AI Product Lead & Software Engineer with a passion for building intelligent systems that make a real impact. My expertise spans Machine Learning, Natural Language Processing, Computer Vision, and voice-first AI systems. I thrive at the intersection of engineering, design, and product strategy, always focused on delivering user-centric solutions.
+              I'm a U.S. Permanent Resident and AI Specialist & Software Developer with a passion for building intelligent systems that make a real impact. My expertise spans Machine Learning, Natural Language Processing, Computer Vision, and voice-first AI systems. I thrive at the intersection of engineering, design, and product strategy, always focused on delivering user-centric solutions.
             </p>
 
             {/* Second Paragraph */}
             <p className="text-gray-600 text-lg leading-relaxed">
-              Currently leading AI product strategy at Encountr, I design end-to-end AI pipelines that transform raw speech into structured insights. Beyond tech, I'm a world-ranked Brazilian Jiu-Jitsu Black Belt, which has taught me discipline, resilience, and the importance of continuous learning—values I bring to every project.
+              Currently leading AI product strategy at Encountr, I design end-to-end AI pipelines that transform raw speech into structured insights. Beyond tech, I'm a high-level Brazilian Jiu-Jitsu Black Belt with championship achievements that have shaped my approach to discipline, resilience, and continuous learning—values I bring to every project.
             </p>
 
+            {/* Brazilian Jiu-Jitsu Achievements - Highlighted */}
+            <div className="pt-2 pb-4">
+              <div className="bg-gradient-to-r from-purple-50 to-teal-50 rounded-xl p-6 border-2 border-purple-100">
+                <div className="flex items-start gap-3">
+                  <div className="flex-shrink-0">
+                    <svg className="w-8 h-8 text-purple-primary" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-gray-900 mb-2 text-lg">Brazilian Jiu-Jitsu Champion</h3>
+                    <p className="text-gray-700 font-medium mb-2">High-Level Black Belt</p>
+                    <ul className="text-gray-600 space-y-1 text-sm">
+                      <li className="flex items-center gap-2">
+                        <span className="text-purple-primary">🏆</span>
+                        <span>Multiple US International Opens Champion</span>
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <span className="text-purple-primary">🏆</span>
+                        <span>South American Champion</span>
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <span className="text-purple-primary">🥋</span>
+                        <span>World-Ranked Competitor</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             {/* Education & Skills */}
-            <div className="pt-4 space-y-3">
+            <div className="pt-2 space-y-3">
               <div>
                 <h3 className="font-semibold text-gray-900 mb-1">Education</h3>
                 <p className="text-gray-600">Miami Dade College — B.S. Information Systems Technology (Software Engineering) & A.S. Computer Programming & Analysis (Mobile Applications)</p>
