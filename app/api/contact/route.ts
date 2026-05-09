@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 import { CONTACT_EMAIL } from "@/data/site";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
 const inbox = process.env.CONTACT_EMAIL || CONTACT_EMAIL;
 
 export async function POST(request: NextRequest) {
@@ -18,14 +17,17 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Check if Resend API key is configured
-    if (!process.env.RESEND_API_KEY) {
+    const apiKey = process.env.RESEND_API_KEY;
+    if (!apiKey) {
       console.error("RESEND_API_KEY is not configured");
       return NextResponse.json(
         { error: "Email service is not configured. Please contact the administrator." },
         { status: 500 }
       );
     }
+
+    // Create client only at request time so `next build` never runs constructor with missing key
+    const resend = new Resend(apiKey);
 
     // Send email using Resend
     const { data, error } = await resend.emails.send({
