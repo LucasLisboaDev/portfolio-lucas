@@ -3,6 +3,8 @@
 import Image from "next/image";
 import { useState, useEffect, useRef, useCallback } from "react";
 import type { Conversation as AgentConversation } from "@elevenlabs/client";
+import { VoiceConversation } from "@elevenlabs/client";
+import MayaOrb, { OrbState } from "@/components/MayaOrb";
 import { ELEVENLABS_AGENT_ID } from "@/data/site";
 
 export default function Hero() {
@@ -17,6 +19,9 @@ export default function Hero() {
   const [connecting, setConnecting] = useState(false);
   const [ending, setEnding] = useState(false);
   const [sessionError, setSessionError] = useState<string | null>(null);
+  const [orbPhase, setOrbPhase] = useState<OrbState | null>(null);
+  const [orbOutputLevel, setOrbOutputLevel] = useState(0);
+  const [orbInputLevel, setOrbInputLevel] = useState(0);
 
   const conversationRef = useRef<AgentConversation | null>(null);
 
@@ -31,6 +36,9 @@ export default function Hero() {
   const endConversation = useCallback(async () => {
     setEnding(true);
     setSessionError(null);
+    setOrbPhase(null);
+    setOrbOutputLevel(0);
+    setOrbInputLevel(0);
     try {
       await conversationRef.current?.endSession();
     } finally {
@@ -47,11 +55,37 @@ export default function Hero() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!sessionActive || !conversationRef.current) {
+      setOrbOutputLevel(0);
+      setOrbInputLevel(0);
+      return;
+    }
+    const conv = conversationRef.current;
+    if (!(conv instanceof VoiceConversation)) return;
+
+    let frame = 0;
+    const tick = () => {
+      try {
+        const out = conv.getOutputVolume();
+        const inn = conv.getInputVolume();
+        setOrbOutputLevel(Math.min(1, Math.max(0, out)));
+        setOrbInputLevel(Math.min(1, Math.max(0, inn)));
+      } catch {
+        // ignore transient read errors
+      }
+      frame = requestAnimationFrame(tick);
+    };
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
+  }, [sessionActive]);
+
   const startConversation = async () => {
     if (sessionActive || connecting) return;
 
     setSessionError(null);
     setConnecting(true);
+    setOrbPhase(OrbState.THINKING);
 
     // Do not call getUserMedia here: @elevenlabs/client requests the mic again inside
     // VoiceConversation.startSession. A second open stream often breaks the session on Chrome/Safari.
@@ -61,6 +95,8 @@ export default function Hero() {
         "Microphone is not available in this context. Use https:// or http://localhost (not a raw LAN IP), then try again."
       );
       setConnecting(false);
+      setOrbPhase(OrbState.ERROR);
+      window.setTimeout(() => setOrbPhase(null), 4000);
       return;
     }
 
@@ -81,14 +117,28 @@ export default function Hero() {
         );
       });
 
-    const sessionOptions = {
-      agentId: ELEVENLABS_AGENT_ID,
-      useWakeLock: false,
+    const voiceCallbacks = {
       onDisconnect: () => {
         conversationRef.current = null;
         setSessionActive(false);
+        setOrbPhase(null);
+        setOrbOutputLevel(0);
+        setOrbInputLevel(0);
       },
-    } as const;
+      onStatusChange: ({ status }: { status: string }) => {
+        if (status === "connecting") setOrbPhase(OrbState.THINKING);
+        if (status === "connected") {
+          setOrbPhase((prev) => (prev === OrbState.THINKING ? OrbState.LISTENING : prev));
+        }
+      },
+      onModeChange: ({ mode }: { mode: "speaking" | "listening" }) => {
+        setOrbPhase(mode === "speaking" ? OrbState.SPEAKING : OrbState.LISTENING);
+      },
+      onError: () => {
+        setOrbPhase(OrbState.ERROR);
+        window.setTimeout(() => setOrbPhase(null), 4500);
+      },
+    };
 
     try {
       const { Conversation } = await import("@elevenlabs/client");
@@ -96,13 +146,23 @@ export default function Hero() {
       let conversation: AgentConversation;
       try {
         conversation = await withTimeout(
-          Conversation.startSession({ ...sessionOptions, connectionType: "websocket" as const }),
+          Conversation.startSession({
+            agentId: ELEVENLABS_AGENT_ID,
+            useWakeLock: false,
+            ...voiceCallbacks,
+            connectionType: "websocket" as const,
+          }),
           30000,
           "WebSocket"
         );
       } catch {
         conversation = await withTimeout(
-          Conversation.startSession({ ...sessionOptions, connectionType: "webrtc" as const }),
+          Conversation.startSession({
+            agentId: ELEVENLABS_AGENT_ID,
+            useWakeLock: false,
+            ...voiceCallbacks,
+            connectionType: "webrtc" as const,
+          }),
           30000,
           "WebRTC"
         );
@@ -118,6 +178,8 @@ export default function Hero() {
             ? err
             : "Could not start the voice session.";
       setSessionError(message);
+      setOrbPhase(OrbState.ERROR);
+      window.setTimeout(() => setOrbPhase(null), 4500);
     } finally {
       setConnecting(false);
     }
@@ -237,50 +299,68 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className="relative z-[100] mt-14 max-w-3xl mx-auto text-center bg-gradient-to-r from-purple-50 to-teal-50 border border-purple-100 rounded-2xl p-6 md:p-8 shadow-sm">
-          <p className="text-sm font-semibold uppercase tracking-wide text-purple-primary mb-2">
-            AI Assistant
-          </p>
-          <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
-            Talk to my autonomous AI agent
-          </h3>
-          <p className="text-gray-700 leading-relaxed mb-2">
-            I built this ElevenLabs voice agent so visitors can ask questions about my background,
-            projects, and experience in real time.             When you start a session, your browser will prompt for microphone access so the agent can hear you—nothing is recorded by this portfolio site;
-            audio is handled by ElevenLabs per their terms.
-          </p>
-          <p className="text-gray-600 text-sm mb-6">
-            Use a secure connection (HTTPS) for voice to work reliably, especially in production.
-          </p>
+        <div className="relative z-[100] mt-14 max-w-5xl mx-auto bg-gradient-to-r from-purple-50 to-teal-50 border border-purple-100 rounded-2xl p-6 md:p-8 shadow-sm">
+          <div
+            className={`flex flex-col gap-6 ${orbPhase !== null ? "lg:flex-row lg:items-center lg:justify-between lg:text-left" : "text-center"}`}
+          >
+            <div className={orbPhase !== null ? "min-w-0 flex-1 lg:pr-4" : "max-w-3xl mx-auto"}>
+              <p className="text-sm font-semibold uppercase tracking-wide text-purple-primary mb-2">
+                AI Assistant
+              </p>
+              <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
+                Talk to my autonomous AI agent
+              </h3>
+              <p className="text-gray-700 leading-relaxed mb-2">
+                I built this ElevenLabs voice agent so visitors can ask questions about my background,
+                projects, and experience in real time. When you start a session, your browser will prompt
+                for microphone access so the agent can hear you—nothing is recorded by this portfolio site;
+                audio is handled by ElevenLabs per their terms.
+              </p>
+              <p className="text-gray-600 text-sm mb-4">
+                Use a secure connection (HTTPS) for voice to work reliably, especially in production.
+              </p>
 
-          {sessionError && (
-            <div
-              className="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-left text-sm text-red-800"
-              role="alert"
-            >
-              {sessionError}
+              {sessionError && (
+                <div
+                  className="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-left text-sm text-red-800"
+                  role="alert"
+                >
+                  {sessionError}
+                </div>
+              )}
+
+              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3">
+                {!sessionActive ? (
+                  <button
+                    type="button"
+                    onClick={startConversation}
+                    disabled={connecting}
+                    className="inline-flex items-center justify-center rounded-xl bg-purple-primary px-8 py-3 font-semibold text-white shadow-md transition-colors hover:bg-purple-dark disabled:cursor-not-allowed disabled:opacity-60"
+                  >
+                    {connecting ? "Connecting…" : "Start voice conversation"}
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={endConversation}
+                    disabled={ending}
+                    className="inline-flex items-center justify-center rounded-xl border-2 border-gray-300 bg-white px-8 py-3 font-semibold text-gray-800 transition-colors hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-60"
+                  >
+                    {ending ? "Ending…" : "End conversation"}
+                  </button>
+                )}
+              </div>
             </div>
-          )}
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-            {!sessionActive ? (
-              <button
-                type="button"
-                onClick={startConversation}
-                disabled={connecting}
-                className="inline-flex items-center justify-center rounded-xl bg-purple-primary px-8 py-3 font-semibold text-white shadow-md transition-colors hover:bg-purple-dark disabled:cursor-not-allowed disabled:opacity-60"
-              >
-                {connecting ? "Connecting…" : "Start voice conversation"}
-              </button>
-            ) : (
-              <button
-                type="button"
-                onClick={endConversation}
-                disabled={ending}
-                className="inline-flex items-center justify-center rounded-xl border-2 border-gray-300 bg-white px-8 py-3 font-semibold text-gray-800 transition-colors hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-60"
-              >
-                {ending ? "Ending…" : "End conversation"}
-              </button>
+            {orbPhase !== null && (
+              <div className="flex shrink-0 justify-center lg:justify-end" aria-live="polite">
+                <MayaOrb
+                  state={orbPhase}
+                  size={168}
+                  outputLevel={orbOutputLevel}
+                  inputLevel={orbInputLevel}
+                />
+              </div>
             )}
           </div>
         </div>

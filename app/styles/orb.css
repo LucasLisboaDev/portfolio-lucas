@@ -1,0 +1,46 @@
+/* Minimal animation utilities to support MayaOrb without Tailwind */
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes breathe {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+  100% { transform: scale(1); }
+}
+
+@keyframes ping {
+  0% { transform: scale(1); opacity: 1; }
+  80% { transform: scale(1.6); opacity: 0; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+.animate-breathe { animation: breathe 5s ease-in-out infinite; }
+.animate-ping { animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite; }
+
+/* Minimal layout utility shims used by MayaOrb (no Tailwind required) */
+.relative { position: relative; }
+.absolute { position: absolute; }
+.flex { display: flex; }
+.items-center { align-items: center; }
+.justify-center { justify-content: center; }
+.rounded-full { border-radius: 9999px; }
+.overflow-hidden { overflow: hidden; }
+.border-2 { border-width: 2px; border-style: solid; }
+.p-8 { padding: 2rem; }
+.inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
+.inset-2 { top: 0.5rem; right: 0.5rem; bottom: 0.5rem; left: 0.5rem; }
+.inset-4 { top: 1rem; right: 1rem; bottom: 1rem; left: 1rem; }
+.inset-6 { top: 1.5rem; right: 1.5rem; bottom: 1.5rem; left: 1.5rem; }
+.transition-all { transition-property: all; }
+.duration-500 { transition-duration: 500ms; }
+.ease-in-out { transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); }
+
