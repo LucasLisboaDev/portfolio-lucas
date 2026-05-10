@@ -22,13 +22,10 @@ export default function ElevenLabsConvaiWidget() {
     document.body.appendChild(script);
   }, []);
 
-  // Outer layer must not steal clicks: the embed can expand an invisible hit-area over the page,
-  // which makes Hero buttons feel "dead" on localhost. Only the widget subtree receives pointer events.
+  // Keep the launcher in a corner so it is less likely to cover primary page controls.
   return (
-    <div className="pointer-events-none fixed inset-0 z-40 flex items-end justify-end p-4 sm:p-6">
-      <div className="pointer-events-auto max-w-full">
-        {createElement("elevenlabs-convai", { "agent-id": ELEVENLABS_AGENT_ID })}
-      </div>
+    <div className="fixed bottom-4 right-4 z-40 sm:bottom-6 sm:right-6">
+      {createElement("elevenlabs-convai", { "agent-id": ELEVENLABS_AGENT_ID })}
     </div>
   );
 }

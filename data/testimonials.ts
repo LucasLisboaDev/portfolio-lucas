@@ -13,11 +13,5 @@ export const testimonials = [
     rating: 5,
     image: undefined,
   },
-  {
-    name: "Kristin Watson",
-    company: "Louis Vuitton",
-    quote: "Working with Lucas was a pleasure. His attention to detail, clean architecture, and production-ready mindset made our collaboration seamless and successful.",
-    rating: 5,
-    image: undefined,
-  },
+  
 ];

@@ -53,19 +53,12 @@ export default function Hero() {
     setSessionError(null);
     setConnecting(true);
 
+    // Do not call getUserMedia here: @elevenlabs/client requests the mic again inside
+    // VoiceConversation.startSession. A second open stream often breaks the session on Chrome/Safari.
+
     if (!navigator.mediaDevices?.getUserMedia) {
       setSessionError(
         "Microphone is not available in this context. Use https:// or http://localhost (not a raw LAN IP), then try again."
-      );
-      setConnecting(false);
-      return;
-    }
-
-    try {
-      await navigator.mediaDevices.getUserMedia({ audio: true });
-    } catch {
-      setSessionError(
-        "Microphone access was blocked or unavailable. Allow microphone use for this site in your browser settings, then try again."
       );
       setConnecting(false);
       return;
@@ -90,6 +83,7 @@ export default function Hero() {
 
     const sessionOptions = {
       agentId: ELEVENLABS_AGENT_ID,
+      useWakeLock: false,
       onDisconnect: () => {
         conversationRef.current = null;
         setSessionActive(false);
@@ -102,15 +96,15 @@ export default function Hero() {
       let conversation: AgentConversation;
       try {
         conversation = await withTimeout(
-          Conversation.startSession({ ...sessionOptions, connectionType: "webrtc" as const }),
-          30000,
-          "WebRTC"
-        );
-      } catch {
-        conversation = await withTimeout(
           Conversation.startSession({ ...sessionOptions, connectionType: "websocket" as const }),
           30000,
           "WebSocket"
+        );
+      } catch {
+        conversation = await withTimeout(
+          Conversation.startSession({ ...sessionOptions, connectionType: "webrtc" as const }),
+          30000,
+          "WebRTC"
         );
       }
 
@@ -118,7 +112,11 @@ export default function Hero() {
       setSessionActive(true);
     } catch (err) {
       const message =
-        err instanceof Error ? err.message : "Could not start the voice session.";
+        err instanceof Error
+          ? err.message
+          : typeof err === "string"
+            ? err
+            : "Could not start the voice session.";
       setSessionError(message);
     } finally {
       setConnecting(false);
@@ -137,7 +135,7 @@ export default function Hero() {
             </h1>
 
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
-              AI Product Lead and <span className="text-purple-primary">Engineer</span>
+              AI Product Lead & <span className="text-purple-primary">Software Engineer</span>
             </h2>
 
             <p className="text-gray-600 text-lg leading-relaxed max-w-lg">
@@ -239,7 +237,7 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className="mt-14 max-w-3xl mx-auto text-center bg-gradient-to-r from-purple-50 to-teal-50 border border-purple-100 rounded-2xl p-6 md:p-8 shadow-sm">
+        <div className="relative z-[100] mt-14 max-w-3xl mx-auto text-center bg-gradient-to-r from-purple-50 to-teal-50 border border-purple-100 rounded-2xl p-6 md:p-8 shadow-sm">
           <p className="text-sm font-semibold uppercase tracking-wide text-purple-primary mb-2">
             AI Assistant
           </p>
@@ -248,8 +246,7 @@ export default function Hero() {
           </h3>
           <p className="text-gray-700 leading-relaxed mb-2">
             I built this ElevenLabs voice agent so visitors can ask questions about my background,
-            projects, and experience in real time. When you start a session, your browser will ask to
-            use the microphone so the agent can hear you—nothing is recorded by this portfolio site;
+            projects, and experience in real time.             When you start a session, your browser will prompt for microphone access so the agent can hear you—nothing is recorded by this portfolio site;
             audio is handled by ElevenLabs per their terms.
           </p>
           <p className="text-gray-600 text-sm mb-6">

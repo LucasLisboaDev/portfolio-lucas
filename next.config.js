@@ -1,4 +1,6 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {}
+const nextConfig = {
+  transpilePackages: ["@elevenlabs/client"],
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
