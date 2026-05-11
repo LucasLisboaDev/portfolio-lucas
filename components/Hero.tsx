@@ -329,7 +329,7 @@ export default function Hero() {
                 </div>
               )}
 
-              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3">
+              <div className="flex w-full flex-col sm:flex-row items-center justify-center gap-3">
                 {!sessionActive ? (
                   <button
                     type="button"
