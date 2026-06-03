@@ -5,6 +5,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import type { Conversation as AgentConversation } from "@elevenlabs/client";
 import { VoiceConversation } from "@elevenlabs/client";
 import MayaOrb, { OrbState } from "@/components/MayaOrb";
+import ResumeAccess from "@/components/ResumeAccess";
 import { ELEVENLABS_AGENT_ID } from "@/data/site";
 
 export default function Hero() {
@@ -235,12 +236,15 @@ export default function Hero() {
               </a>
             </div>
 
-            <a
-              href="#contact"
-              className="inline-block bg-purple-primary text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-purple-dark transition-colors shadow-lg hover:shadow-xl"
-            >
-              Get In Touch
-            </a>
+            <div className="flex flex-wrap items-center gap-4">
+              <a
+                href="#contact"
+                className="inline-block bg-purple-primary text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-purple-dark transition-colors shadow-lg hover:shadow-xl"
+              >
+                Get In Touch
+              </a>
+              <ResumeAccess />
+            </div>
           </div>
 
           <div className="relative flex items-center justify-center py-12">
