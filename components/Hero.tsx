@@ -198,7 +198,7 @@ export default function Hero() {
             </h1>
 
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
-              AI Product Lead & <span className="text-purple-primary">Software Engineer</span>
+              AI <span className="text-purple-primary">Engineer</span>
             </h2>
 
             <p className="text-gray-600 text-lg leading-relaxed max-w-lg">

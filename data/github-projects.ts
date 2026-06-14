@@ -24,6 +24,63 @@ export interface GitHubProject {
 
 export const githubProjects: GitHubProject[] = [
   {
+    id: "email-calendar-agent",
+    title: "Email & Calendar Automation Agent",
+    subtitle: "Agentic email triage & scheduling",
+    summary:
+      "A production-grade agentic AI system that autonomously manages email triage, smart reply drafting, and meeting scheduling using a full-stack Python and React architecture deployed on Railway and Vercel.",
+    highlight: "Human-in-the-loop for high-stakes actions. Full distributed tracing on every run.",
+    tech: [
+      "Python",
+      "FastAPI",
+      "GPT-4o",
+      "Gmail API",
+      "Google Calendar API",
+      "OAuth 2.0",
+      "Pydantic",
+      "React",
+      "Vite",
+      "Railway",
+      "Vercel",
+      "Loguru",
+    ],
+    liveUrl: "https://email-agent-dashboard-alpha.vercel.app",
+    githubUrl: "https://github.com/LucasLisboaDev/email-calendar-agent",
+    sections: [
+      {
+        heading: "Architecture",
+        bullets: [
+          "Ingestion: Gmail API via OAuth 2.0. HTML stripped before any LLM processing.",
+          "Classification: GPT-4o function-calling pipeline forces structured JSON output — intent label (meeting request, reply needed, spam/promo, FYI, urgent), suggested action, confidence score, and reasoning trace.",
+          "Routing: low-stakes actions (archive promotions, mark newsletters read) execute automatically. High-stakes actions (schedule events, send replies) queue for human approval.",
+          "Execution: approved actions fire Gmail send API or Google Calendar API in real time — Google Meet link generation and attendee invite delivery included.",
+          "Tracing: unique trace ID per agent run; each pipeline step (fetch, clean, classify, route, execute) recorded as a timed span with full input/output logging.",
+          "Self-evaluation: GPT-4o evaluator scores each session on intent accuracy, action quality, and reasoning quality — flags decisions where the evaluator disagrees with the agent.",
+        ],
+      },
+      {
+        heading: "Stack",
+        bullets: [
+          "Backend: Python · FastAPI · Pydantic · Loguru · Railway",
+          "LLM: OpenAI GPT-4o (function calling)",
+          "Integrations: Gmail API · Google Calendar API · OAuth 2.0",
+          "Frontend: React · Vite · Vercel",
+          "Repos: LucasLisboaDev/email-calendar-agent · LucasLisboaDev/email-agent-dashboard",
+        ],
+      },
+      {
+        heading: "Key engineering decisions",
+        bullets: [
+          "Function calling over freeform text: structured JSON output makes routing deterministic and auditable — no parsing fragile LLM prose.",
+          "Human-in-the-loop for high-stakes actions: auto-execute low-risk triage, require one-click Approve/Reject on the React dashboard before sending emails or creating calendar events.",
+          "HTML stripping before LLM: removes noise and token waste so classification focuses on message intent, not markup.",
+          "Distributed tracing per run: every pipeline step is a timed span with I/O logging — debuggable in production without guesswork.",
+          "Post-session self-evaluation: automated quality scoring catches classification drift before it reaches users.",
+        ],
+      },
+    ],
+  },
+  {
     id: "production-rag-pipeline",
     title: "Production RAG Pipeline",
     subtitle: "ArXiv Research Assistant",
