@@ -201,10 +201,13 @@ export default function Hero() {
               AI <span className="text-purple-primary">Engineer</span>
             </h2>
 
-            <p className="text-gray-600 text-lg leading-relaxed max-w-lg">
-              Building intelligent products at the intersection of AI, ML, and human-centered design.
-              Specializing in voice-first AI systems, NLP, and computer vision to deliver transformative
-              user experiences.
+            <p className="text-gray-600 text-lg leading-relaxed max-w-xl">
+              I build AI systems end-to-end, from architecture to deployment, with a focus on outcomes
+              that are measurable and products that are actually useful. My background spans agentic AI,
+              RAG, vector databases, NLP, and cloud infrastructure, with production experience across
+              startups and enterprise environments. I care as much about why a system is built as how it
+              is built, and I approach every project with the same question: does this create real value
+              for a real user?
             </p>
 
             <div className="flex items-center gap-4 pt-2">
