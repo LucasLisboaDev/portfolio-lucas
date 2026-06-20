@@ -7,6 +7,13 @@ export const projects = [
     image: "/encountr-logo.png",
   },
   {
+    title: "AI Content Pipeline - Autonomous Content Engine",
+    description: "Built an end-to-end autonomous content engine that discovers trending topics via live web search, researches competitor gaps, drafts SEO-optimized posts with GPT-4o, and publishes to Ghost CMS— orchestrated on a recurring n8n schedule with zero manual intervention. Four independently deployable FastAPI services use LangChain agents for discovery and research, LCEL chains for drafting, deterministic Python for SEO scoring, and draft-first publishing to keep a human in the loop.",
+    tech: ["LangChain", "GPT-4o", "FastAPI", "n8n", "Tavily", "Ghost CMS", "Railway"],
+    link: "https://github.com/LucasLisboaDev/ai-content-pipeline",
+    image: undefined,
+  },
+  {
     title: "U.S. Chamber of Commerce - Spark Founders",
     description: "During a three-week U.S. Chamber of Commerce program I collaborated with the Spark Founders team—including the CTO and senior AI engineers, to design and prototype a real-time tagline-matching system that connects entrepreneurs with complementary skills and goals. I performed algorithm analysis and feature engineering, defining fourteen domain-specific parameters such as cosine similarity, token overlap, readability, sentiment, and keyword importance, and proposed and benchmarked a higher-capacity Hugging Face encoder to improve accuracy.",
     tech: ["Python", "Pandas", "Kafka", "RabbitMQ", "SQLAlchemy", "ML"],
