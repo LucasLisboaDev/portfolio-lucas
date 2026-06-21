@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { projects } from "@/data/projects";
+import { workExperience } from "@/data/workExperience";
 
 function portfolioImageClassName(src: string) {
   const lower = src.toLowerCase();
@@ -37,7 +37,7 @@ export default function Portfolio() {
 
         {/* Projects Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project, index) => {
+          {workExperience.map((project, index) => {
             const expanded = expandedIndex === index;
             return (
               <div

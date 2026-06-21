@@ -24,6 +24,50 @@ export interface GitHubProject {
 
 export const githubProjects: GitHubProject[] = [
   {
+    id: "ai-content-pipeline",
+    title: "AI Content Pipeline",
+    subtitle: "Autonomous content engine",
+    summary:
+      "An end-to-end autonomous content engine that discovers trending topics via live web search, researches competitor gaps, drafts SEO-optimized posts with GPT-4o, and publishes to Ghost CMS — orchestrated on a recurring n8n schedule with zero manual intervention.",
+    highlight: "Draft-first publishing. Four independently deployable FastAPI services.",
+    tech: ["LangChain", "GPT-4o", "FastAPI", "n8n", "Tavily", "Ghost CMS", "Railway", "Pydantic"],
+    liveUrl: "https://thesupercreator.ghost.io/brazilian-jiu-jitsu-misconceptions/",
+    githubUrl: "https://github.com/LucasLisboaDev/ai-content-pipeline",
+    sections: [
+      {
+        heading: "Architecture",
+        bullets: [
+          "Discovery: LangChain agent with Tavily real-time web search finds high-value blog topics for a given niche.",
+          "Research: second LangChain agent analyzes competitor gaps, keywords, and content outline for the top topic.",
+          "Drafting: LCEL chain with GPT-4o generates a full SEO-optimized blog post from the research brief.",
+          "SEO scoring: deterministic Python scoring for character counts and keyword density — no LLM arithmetic.",
+          "Publishing: Ghost CMS Admin API with JWT auth; posts publish as drafts by default for human review.",
+          "Orchestration: n8n scheduler triggers the full pipeline on a recurring cadence and sends email notifications.",
+        ],
+      },
+      {
+        heading: "Stack",
+        bullets: [
+          "Backend: Python · FastAPI · Pydantic · Railway",
+          "Agents: LangChain · Tavily · GPT-4o",
+          "Orchestration: n8n · Gmail notifications",
+          "CMS: Ghost Admin API · JWT (PyJWT)",
+          "Repo: LucasLisboaDev/ai-content-pipeline",
+        ],
+      },
+      {
+        heading: "Key engineering decisions",
+        bullets: [
+          "Agents vs. chains: discovery and research use autonomous LangChain agents for tool use over live search; drafting uses LCEL chains when all context is already available.",
+          "Temperature tuning: research and metadata at 0.1–0.2 for accuracy; drafting at 0.7 for natural prose.",
+          "Deterministic SEO scoring: pure Python over LLM — faster, cheaper, and more reliable for measurable metrics.",
+          "Draft-first publishing: posts never go live automatically — human review before publication.",
+          "Separation of concerns: each pipeline phase is its own router, agent module, and Pydantic models — independently testable and replaceable.",
+        ],
+      },
+    ],
+  },
+  {
     id: "email-calendar-agent",
     title: "Email & Calendar Automation Agent",
     subtitle: "Agentic email triage & scheduling",

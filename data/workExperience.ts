@@ -1,17 +1,10 @@
-export const projects = [
+export const workExperience = [
   {
     title: "Encountr - Voice-First Relationship Intelligence",
     description: "Led AI product strategy for a voice-first Relationship Intelligence platform. Designed end-to-end AI pipelines transforming raw speech into structured EQ/RQ signals and longitudinal user insights using NLP and behavioral science.",
     tech: ["Python", "FastAPI", "AWS", "Docker", "Redis", "Hugging Face", "ElevenLabs", "NLP"],
     link: "https://encountr.ai",
     image: "/encountr-logo.png",
-  },
-  {
-    title: "AI Content Pipeline - Autonomous Content Engine",
-    description: "Built an end-to-end autonomous content engine that discovers trending topics via live web search, researches competitor gaps, drafts SEO-optimized posts with GPT-4o, and publishes to Ghost CMS— orchestrated on a recurring n8n schedule with zero manual intervention. Four independently deployable FastAPI services use LangChain agents for discovery and research, LCEL chains for drafting, deterministic Python for SEO scoring, and draft-first publishing to keep a human in the loop.",
-    tech: ["LangChain", "GPT-4o", "FastAPI", "n8n", "Tavily", "Ghost CMS", "Railway"],
-    link: "https://github.com/LucasLisboaDev/ai-content-pipeline",
-    image: undefined,
   },
   {
     title: "U.S. Chamber of Commerce - Spark Founders",
