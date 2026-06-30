@@ -275,4 +275,55 @@ export const githubProjects: GitHubProject[] = [
       },
     ],
   },
+  {
+    id: "jiujitsu-jobs",
+    title: "JiuJitsuJobs",
+    subtitle: "Two-sided BJJ coaching marketplace",
+    summary:
+      "A two-sided job marketplace connecting Brazilian jiu-jitsu coaches with gyms looking to hire — built end to end as a solo founder and developer. Purpose-built for the sport with belt rank verification, gi/no-gi specialization, competition history, and affiliation tracking.",
+    highlight: "Solo founder. Full-stack product from domain model to production deployment.",
+    tech: [
+      "Next.js 14",
+      "TypeScript",
+      "Tailwind CSS",
+      "PostgreSQL",
+      "Prisma",
+      "Clerk",
+      "Resend",
+      "Railway",
+    ],
+    liveUrl: "https://jiujitsujobs.net",
+    githubUrl: "https://github.com/LucasLisboaDev/BJJJobs",
+    sections: [
+      {
+        heading: "Problem & approach",
+        paragraphs: [
+          "The BJJ coaching industry runs almost entirely on personal networks and word of mouth, leaving talented coaches without visibility and gyms without an efficient way to find qualified instructors.",
+          "JiuJitsuJobs solves this with a purpose-built platform that understands the sport — belt rank verification, gi/no-gi specialization, competition history, and affiliation tracking, all wrapped in a clean, modern interface.",
+        ],
+      },
+      {
+        heading: "Key features",
+        bullets: [
+          "Dual-sided registration flow for coaches and gyms, each with tailored onboarding.",
+          "Real-time job search and filtering by city, belt rank, and job type.",
+          "Application system with cover messages and duplicate-prevention logic.",
+          "Role-aware dashboard — gyms manage listings and review applicants, coaches track application history.",
+          "Public coach profiles showcasing belt rank, specialties, and competition background.",
+          "Bilingual support (English/Portuguese) for the international BJJ community.",
+        ],
+      },
+      {
+        heading: "Stack",
+        bullets: [
+          "Frontend: Next.js 14 (App Router) · TypeScript · Tailwind CSS",
+          "Database: PostgreSQL · Prisma ORM",
+          "Auth: Clerk",
+          "Email: Resend (transactional)",
+          "Deployment: Railway · custom domain (jiujitsujobs.net)",
+          "Repo: LucasLisboaDev/BJJJobs",
+        ],
+      },
+    ],
+  },
 ];
