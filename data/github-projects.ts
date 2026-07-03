@@ -179,6 +179,58 @@ export const githubProjects: GitHubProject[] = [
     ],
   },
   {
+    id: "talentmatch-ai",
+    title: "TalentMatch.ai",
+    subtitle: "Fine-tuning research study",
+    summary:
+      "A 6-experiment ML research project investigating automated resume-to-job-description fit scoring using fine-tuned transformer models. Starting from a regression approach and iterating through LoRA fine-tuning, dataset comparison, and 3-class classification, the project systematically identified why public datasets fail for this problem and what it would take to solve it in production.",
+    highlight:
+      "6 experiments. Label quality beats quantity. Public datasets fail at distribution shift.",
+    tech: [
+      "Python",
+      "HuggingFace Transformers",
+      "PEFT",
+      "PyTorch",
+      "Gradio",
+      "Google Colab",
+      "HuggingFace Hub",
+    ],
+    liveUrl: "https://huggingface.co/spaces/LucasLisboadev/TalentMatch-AI",
+    githubUrl: "https://github.com/LucasLisboaDev/TalentMatch-AI",
+    sections: [
+      {
+        heading: "What I built and found",
+        bullets: [
+          "Trained DistilBERT (67M parameters) across 6 notebooks using the HuggingFace Trainer API, PEFT/LoRA, and two public datasets totaling 7,225 labeled resume-JD pairs.",
+          "Full fine-tuning achieved MAE 11.95 on held-out test data — a 32% improvement over baseline.",
+          "LoRA fine-tuning with only 1.09% trainable parameters matched the naive baseline, confirming that parameter-efficient methods require larger base models to be effective.",
+          "Retraining on a 10x larger dataset with cosine-similarity-derived labels performed worse than the smaller GPT-4o-labeled dataset, demonstrating that label quality beats label quantity.",
+          "The final 3-class classifier (No Fit / Potential Fit / Good Fit) achieved 70.3% accuracy and 0.69 macro F1 on 7,225 combined samples but failed to generalize to real-world inputs — a distribution shift problem that cannot be solved without proprietary human-labeled data at scale.",
+        ],
+      },
+      {
+        heading: "Stack",
+        bullets: [
+          "ML: Python · HuggingFace Transformers · PEFT/LoRA · PyTorch",
+          "Interface: Gradio · HuggingFace Spaces",
+          "Compute: Google Colab T4 GPU",
+          "Models: HuggingFace Hub (LucasLisboadev)",
+          "Repo: LucasLisboaDev/TalentMatch-AI",
+        ],
+      },
+      {
+        heading: "Key engineering decisions",
+        bullets: [
+          "Full fine-tuning vs LoRA tradeoff: full fine-tuning on DistilBERT delivered meaningful gains; LoRA underperformed at this model scale.",
+          "Dynamic score normalization to prevent silent label corruption across datasets with different scoring scales.",
+          "Stratified train/val splits across imbalanced classes to avoid optimistic metrics on majority classes.",
+          "Macro F1 as the primary metric to handle class imbalance rather than raw accuracy alone.",
+          "Pivot from regression to classification when label noise made continuous prediction intractable.",
+        ],
+      },
+    ],
+  },
+  {
     id: "offline-llm-engineering",
     title: "offline-llm-engineering",
     subtitle: "Local LLM inference & benchmarking",
