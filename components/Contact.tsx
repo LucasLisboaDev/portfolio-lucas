@@ -95,7 +95,7 @@ export default function Contact() {
             Contact me
           </h2>
           <p className="text-gray-600 text-lg">
-            Let's collaborate on your next AI product or discuss opportunities in ML, NLP, or voice-first systems.
+            Let's collaborate on your next product or discuss software engineering and AI opportunities.
           </p>
           <p className="text-gray-600 mt-4">
             Use the form below and I will get it at{" "}

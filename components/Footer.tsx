@@ -55,7 +55,7 @@ export default function Footer() {
           <div>
             <h3 className="font-bold text-lg mb-4">About</h3>
             <p className="text-gray-400 text-sm">
-              AI Product Lead & Software Engineer specializing in ML, NLP, and voice-first AI systems. Building intelligent products that make a difference.
+              Software / AI Engineer with full-stack experience across web, mobile, data, and intelligent systems. Building production software that creates real business value.
             </p>
           </div>
         </div>

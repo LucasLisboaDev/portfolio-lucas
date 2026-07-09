@@ -64,12 +64,12 @@ export default function About() {
 
             {/* First Paragraph */}
             <p className="text-gray-600 text-lg leading-relaxed">
-              I'm a U.S. Permanent Resident and AI Specialist & Software Developer with a passion for building intelligent systems that make a real impact. My expertise spans Machine Learning, Natural Language Processing, Computer Vision, and voice-first AI systems. I thrive at the intersection of engineering, design, and product strategy, always focused on delivering user-centric solutions.
+              I'm a U.S. Permanent Resident and Software / AI Engineer with full-stack experience designing, building, and deploying production-grade applications across web, mobile, data, and intelligent systems. I work across the entire development lifecycle — from architecture and backend engineering to AI integration, data pipelines, and cloud deployment — always focused on delivering solutions that create real business value.
             </p>
 
             {/* Second Paragraph */}
             <p className="text-gray-600 text-lg leading-relaxed">
-              Currently leading AI product strategy at Encountr, I design end-to-end AI pipelines that transform raw speech into structured insights. Beyond tech, I'm a high-level Brazilian Jiu-Jitsu Black Belt with championship achievements that have shaped my approach to discipline, resilience, and continuous learning—values I bring to every project.
+              Currently a Software Engineer / AI Developer at Encountr, I build production AI systems end-to-end, including data pipelines, NLP models, agentic workflows, and cloud-deployed APIs. Beyond tech, I'm a high-level Brazilian Jiu-Jitsu Black Belt with championship achievements that have shaped my approach to discipline, resilience, and continuous learning—values I bring to every project.
             </p>
 
             {/* Brazilian Jiu-Jitsu Achievements - Highlighted */}
@@ -107,7 +107,7 @@ export default function About() {
             <div className="pt-2 space-y-3">
               <div>
                 <h3 className="font-semibold text-gray-900 mb-1">Education</h3>
-                <p className="text-gray-600">Miami Dade College — B.S. Information Systems Technology (Software Engineering) & A.S. Computer Programming & Analysis (Mobile Applications)</p>
+                <p className="text-gray-600">Miami Dade College — B.S. Applied Artificial Intelligence (AI Engineering) & A.S. Computer Programming & Analysis · GPA: 3.9</p>
               </div>
               <div>
                 <h3 className="font-semibold text-gray-900 mb-1">Languages</h3>

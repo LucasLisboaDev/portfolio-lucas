@@ -70,8 +70,8 @@ export default function RecentProjects() {
             My Recent <span className="text-purple-primary">Projects</span>
           </h2>
           <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-            Open-source AI systems on GitHub — production RAG and offline LLM engineering.
-            Click a card to explore architecture, stack, and results.
+            Selected engineering work on GitHub — from production RAG and agentic systems to
+            full-stack apps. Click a card to explore architecture, stack, and results.
           </p>
         </div>
 

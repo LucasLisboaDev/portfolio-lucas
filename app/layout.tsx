@@ -5,8 +5,8 @@ import ElevenLabsConvaiWidget from "@/components/ElevenLabsConvaiWidget";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Lucas Lisboa Alves | AI Product Lead & Software Engineer",
-  description: "AI Product Lead & Software Engineer specializing in ML, NLP, Computer Vision, and voice-first AI systems. Building intelligent products at the intersection of AI and human-centered design.",
+  title: "Lucas Lisboa Alves | Software / AI Engineer",
+  description: "Software / AI Engineer with full-stack experience building production applications across web, mobile, data, and intelligent systems — from architecture to cloud deployment.",
 };
 
 export default function RootLayout({

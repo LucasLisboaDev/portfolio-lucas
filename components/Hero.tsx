@@ -198,16 +198,14 @@ export default function Hero() {
             </h1>
 
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
-              AI <span className="text-purple-primary">Engineer</span>
+              Software / AI <span className="text-purple-primary">Engineer</span>
             </h2>
 
             <p className="text-gray-600 text-lg leading-relaxed max-w-xl">
-              I build AI systems end-to-end, from architecture to deployment, with a focus on outcomes
-              that are measurable and products that are actually useful. My background spans agentic AI,
-              RAG, vector databases, NLP, and cloud infrastructure, with production experience across
-              startups and enterprise environments. I care as much about why a system is built as how it
-              is built, and I approach every project with the same question: does this create real value
-              for a real user?
+              I design, build, and ship production software across web, mobile, data, and intelligent
+              systems — from architecture and backend engineering to AI integration and cloud deployment.
+              My experience spans startups and enterprise environments, with a focus on solutions that
+              create real business value. I care as much about why a system is built as how it is built.
             </p>
 
             <div className="flex items-center gap-4 pt-2">
