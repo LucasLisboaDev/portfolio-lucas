@@ -1,6 +1,8 @@
 import "./globals.css";
 import localFont from "next/font/local";
 import ElevenLabsConvaiWidget from "@/components/ElevenLabsConvaiWidget";
+import MotionProvider from "@/components/motion/MotionProvider";
+import SmoothScroll from "@/components/motion/SmoothScroll";
 
 /**
  * Fonts are self-hosted from app/fonts (SIL Open Font License, see
@@ -48,7 +50,16 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${sans.variable} ${display.variable}`}>
       <body className="font-sans">
-        {children}
+        <MotionProvider>
+          <SmoothScroll />
+          {/*
+            Oversized ghost words and the hero name intentionally bleed past
+            the screen edges. overflow-x: clip on this wrapper (not on body,
+            where browsers turn it into overflow: hidden on the viewport)
+            stops sideways scrolling without breaking position: sticky.
+          */}
+          <div className="relative overflow-x-clip">{children}</div>
+        </MotionProvider>
         <ElevenLabsConvaiWidget />
       </body>
     </html>
