@@ -4,8 +4,96 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * Design tokens (Dymas Alfin style). Colors are RGB channels so Tailwind's
+ * opacity modifiers work (bg-ink/80). Full usage rules live in design-tokens.md.
+ */
 @layer base {
+  :root {
+    /* Light surfaces */
+    --color-canvas: 253 253 253; /* #FDFDFD page background */
+    --color-surface: 244 242 240; /* #F4F2F0 cards, inputs, panels */
+    --color-line: 229 226 223; /* #E5E2DF dividers and row borders */
+    --color-ghost: 237 235 234; /* #EDEBEA decorative watermark words only */
+
+    /* Ink (text and dark sections) */
+    --color-ink: 10 9 9; /* #0A0909 primary text, dark pills, inverted sections */
+    --color-ink-soft: 74 70 69; /* #4A4645 long-form body copy */
+    --color-ink-muted: 163 160 157; /* #A3A09D secondary text on dark */
+    --color-ink-surface: 27 24 23; /* #1B1817 cards inside dark sections */
+    --color-ink-line: 42 39 38; /* #2A2726 dividers inside dark sections */
+    --color-muted: 112 112 112; /* #707070 secondary text, 4.9:1 on canvas */
+
+    /* Warm accent family */
+    --color-accent: 156 100 85; /* #9C6455 links, labels, highlights, 6.2:1 on canvas */
+    --color-accent-deep: 94 58 48; /* #5E3A30 hover and active states */
+    --color-accent-soft: 206 179 166; /* #CEB3A6 focus rings, decorative only */
+
+    /* Status */
+    --color-status: 34 197 94; /* #22C55E the "Available" dot only */
+
+    /* Motion (mirrors lib/motion.ts for CSS-only transitions) */
+    --ease-reveal: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-page: cubic-bezier(0.65, 0, 0.35, 1);
+    --dur-fast: 250ms;
+    --dur-base: 600ms;
+    --dur-slow: 900ms;
+
+    color-scheme: light;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
   body {
-    @apply bg-transparent text-gray-900;
+    @apply bg-canvas text-ink antialiased;
+  }
+
+  :focus-visible {
+    outline: 2px solid rgb(var(--color-accent-soft));
+    outline-offset: 3px;
+  }
+}
+
+@layer utilities {
+  /* Display type: Archivo, expanded, all caps */
+  .text-display {
+    font-family: var(--font-display), "Arial Black", Arial, sans-serif;
+    font-stretch: 112%;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    line-height: 0.92;
+  }
+
+  /* Width helpers for the variable Archivo axis (Tailwind 3 has no font-stretch utility) */
+  .stretch-normal {
+    font-stretch: 100%;
+  }
+  .stretch-expanded {
+    font-stretch: 112%;
+  }
+
+  /* Outlined display text. Only use at headline scale, next to a solid word. */
+  .text-outline {
+    color: transparent;
+    -webkit-text-stroke: 2px rgb(var(--color-ink));
+  }
+  .text-outline-light {
+    color: transparent;
+    -webkit-text-stroke: 2px rgb(var(--color-canvas));
+  }
+}
+
+/* Respect the visitor's reduced motion setting everywhere CSS animates. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

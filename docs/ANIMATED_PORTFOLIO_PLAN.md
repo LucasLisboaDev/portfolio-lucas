@@ -48,13 +48,13 @@ Photography and company logos render in grayscale by default and restore color o
 
 ### 3.3 Typography
 
-Display type uses **Archivo** (variable, with its width axis pushed to expanded) at weight 700 to 800, set in all caps with tight tracking. Body and UI type keep **Inter**, which the site already loads. Both come through `next/font/google`, so there are no layout shifts from font swapping.
+Display type uses **Archivo** (variable, with its width axis pushed to expanded) at weight 700 to 800, set in all caps with tight tracking. Body and UI type keep **Inter**, which the site already loads. Both are self-hosted variable fonts in `app/fonts`, loaded with `next/font/local`, so builds never depend on reaching Google Fonts and there are no layout shifts from font swapping. (Changed in Phase 0 from the original `next/font/google` plan.)
 
 | Role | Size (desktop / mobile) | Notes |
 |---|---|---|
 | Hero name | `clamp(4rem, 12vw, 11rem)` | First name outlined, last name solid |
 | Ghost word | `clamp(5rem, 16vw, 14rem)` | `ghost` color, sits behind section headings |
-| Section label | 2rem / 1.5rem | Slash prefix, for example `/SELECTED WORK` |
+| Section label | 2.75rem / 1.875rem | Slash prefix, for example `/SELECTED WORK` (matches the approved canvas) |
 | Card title | 1.5rem / 1.25rem | Archivo, sentence case |
 | Body | 1rem / 1rem | Inter 400, line height 1.65 |
 | Meta and tags | 0.8125rem | Inter 500, `muted` |

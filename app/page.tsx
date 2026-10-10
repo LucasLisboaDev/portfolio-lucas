@@ -7,35 +7,18 @@ import Testimonials from "@/components/Testimonials";
 import Certificates from "@/components/Certificates";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
-import AnimatedGradient from "@/components/ui/animated-gradient";
 
+/**
+ * Home page.
+ *
+ * Phase 0 of the redesign removed the full-screen WebGL gradient that used to
+ * sit behind every section. The page now renders on the flat `canvas`
+ * background from the design tokens. The sections below are rebuilt one by one
+ * in Phases 2 to 5 (see docs/ANIMATED_PORTFOLIO_PLAN.md).
+ */
 export default function Home() {
   return (
-    <main className="relative">
-      <div className="fixed inset-0 -z-10 pointer-events-none" aria-hidden>
-        <AnimatedGradient
-          config={{
-            preset: "custom",
-            // Professional grey palette: charcoal → steel → soft slate
-            color1: "#1E293B",
-            color2: "#94A3B8",
-            color3: "#F1F5F9",
-            rotation: -28,
-            proportion: 40,
-            scale: 0.38,
-            speed: 14,
-            distortion: 5,
-            swirl: 42,
-            swirlIterations: 5,
-            softness: 100,
-            offset: -90,
-            shape: "Edge",
-            shapeSize: 34,
-          }}
-          noise={{ opacity: 0.12, scale: 1 }}
-          style={{ zIndex: 0 }}
-        />
-      </div>
+    <main className="relative bg-canvas">
       <Navbar />
       <Hero />
       <Portfolio />
