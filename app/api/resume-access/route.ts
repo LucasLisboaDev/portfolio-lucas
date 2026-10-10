@@ -35,7 +35,7 @@ async function notifyResumeAccess(email: string) {
     subject: `Resume download: ${email}`,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h2 style="color: #8B5CF6;">Resume access requested</h2>
+        <h2 style="color: #334155;">Resume access requested</h2>
         <p><strong>Email:</strong> ${email}</p>
         <p style="color: #666; font-size: 14px;">Someone entered this email on your portfolio to view or download your resume.</p>
       </div>

@@ -2,7 +2,7 @@ import { certificates } from "@/data/certificates";
 
 export default function Certificates() {
   return (
-    <section id="certificates" className="py-24 px-6 bg-white">
+    <section id="certificates" className="py-24 px-6 bg-white/90 backdrop-blur-[2px]">
       <div className="max-w-7xl mx-auto">
         <div className="mb-12 text-center md:text-left">
           <p className="text-gray-600 text-sm font-medium mb-2">Credentials</p>

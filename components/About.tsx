@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function About() {
   return (
-    <section id="about" className="py-24 px-6 bg-white">
+    <section id="about" className="py-24 px-6 bg-white/90 backdrop-blur-[2px]">
       <div className="max-w-7xl mx-auto">
         <div className="grid md:grid-cols-2 gap-12 items-center">
           {/* Left Column - Image with Purple Abstract Background */}
@@ -19,19 +19,19 @@ export default function About() {
                 {/* Main brushstroke shape - organic and flowing */}
                 <path
                   d="M80 100 C120 80, 160 90, 200 70 C240 50, 280 60, 320 50 C360 40, 400 60, 420 100 C440 140, 430 180, 420 220 C410 260, 400 300, 390 340 C380 380, 370 420, 350 460 C330 500, 300 530, 260 550 C220 570, 180 560, 140 540 C100 520, 70 480, 50 440 C30 400, 20 360, 30 320 C40 280, 50 240, 60 200 C70 160, 70 120, 80 100 Z"
-                  fill="#8B5CF6"
+                  fill="#334155"
                   opacity="0.95"
                 />
                 {/* Secondary brushstroke for depth */}
                 <path
                   d="M60 120 C100 100, 140 110, 180 90 C220 70, 260 80, 300 70 C340 60, 380 80, 400 120 C420 160, 410 200, 400 240 C390 280, 380 320, 370 360 C360 400, 350 440, 330 480 C310 520, 280 550, 240 570 C200 590, 160 580, 120 560 C80 540, 50 500, 30 460 C10 420, 0 380, 10 340 C20 300, 30 260, 40 220 C50 180, 50 140, 60 120 Z"
-                  fill="#8B5CF6"
+                  fill="#334155"
                   opacity="0.75"
                 />
                 {/* Accent brushstroke */}
                 <path
                   d="M100 80 C140 60, 180 70, 220 50 C260 30, 300 40, 340 30 C380 20, 420 40, 440 80 C460 120, 450 160, 440 200 C430 240, 420 280, 410 320 C400 360, 390 400, 370 440 C350 480, 320 510, 280 530 C240 550, 200 540, 160 520 C120 500, 90 460, 70 420 C50 380, 40 340, 50 300 C60 260, 70 220, 80 180 C90 140, 90 100, 100 80 Z"
-                  fill="#8B5CF6"
+                  fill="#334155"
                   opacity="0.6"
                 />
               </svg>

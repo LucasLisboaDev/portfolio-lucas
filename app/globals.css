@@ -6,6 +6,6 @@
 
 @layer base {
   body {
-    @apply bg-blue-light;
+    @apply bg-transparent text-gray-900;
   }
 }

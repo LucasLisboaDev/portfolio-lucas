@@ -23,7 +23,7 @@ export default function Portfolio() {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
   return (
-    <section id="portfolio" className="py-24 px-6 bg-white">
+    <section id="portfolio" className="py-24 px-6 bg-white/90 backdrop-blur-[2px]">
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-16">

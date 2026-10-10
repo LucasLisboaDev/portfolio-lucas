@@ -1,15 +1,13 @@
-import Image from "next/image";
-
 export default function Navbar() {
   return (
-    <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-sm border-b border-gray-100">
+    <nav className="fixed top-0 w-full z-50 bg-white/85 backdrop-blur-md border-b border-slate-200/80">
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-green-500 rounded flex items-center justify-center">
+          <div className="w-8 h-8 bg-purple-dark rounded flex items-center justify-center">
             <span className="text-white font-bold text-lg">#</span>
           </div>
-          <span className="text-gray-800 font-semibold text-lg">Lucas Lisboa</span>
+          <span className="text-slate-800 font-semibold text-lg">Lucas Lisboa</span>
         </div>
 
         {/* Navigation Links */}

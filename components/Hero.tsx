@@ -1,21 +1,14 @@
 "use client";
 
-import Image from "next/image";
 import { useState, useEffect, useRef, useCallback } from "react";
 import type { Conversation as AgentConversation } from "@elevenlabs/client";
 import { VoiceConversation } from "@elevenlabs/client";
 import MayaOrb, { OrbState } from "@/components/MayaOrb";
 import ResumeAccess from "@/components/ResumeAccess";
+import InteractiveTiltAvatar from "@/components/ui/interactive-tilt-avatar";
 import { ELEVENLABS_AGENT_ID } from "@/data/site";
 
 export default function Hero() {
-  const profileImages = [
-    "/lucas-profile.jpeg",
-    "/lucas-mdcworks.jpeg",
-    "/luccas-thinkbig.jpeg",
-  ];
-
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [sessionActive, setSessionActive] = useState(false);
   const [connecting, setConnecting] = useState(false);
   const [ending, setEnding] = useState(false);
@@ -25,14 +18,6 @@ export default function Hero() {
   const [orbInputLevel, setOrbInputLevel] = useState(0);
 
   const conversationRef = useRef<AgentConversation | null>(null);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % profileImages.length);
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, [profileImages.length]);
 
   const endConversation = useCallback(async () => {
     setEnding(true);
@@ -190,22 +175,22 @@ export default function Hero() {
     <section id="home" className="min-h-screen flex items-center justify-center pt-20 px-6">
       <div className="max-w-7xl mx-auto w-full">
         <div className="grid md:grid-cols-2 gap-12 items-center">
-          <div className="space-y-6">
-            <p className="text-gray-600 text-lg">Hey, I am</p>
+          <div className="relative z-10 space-y-6 rounded-2xl border border-slate-200/80 bg-white/90 p-6 shadow-lg backdrop-blur-md md:p-8">
+            <p className="text-gray-700 text-lg font-medium">Hey, I am</p>
 
-            <h1 className="text-5xl md:text-6xl font-bold text-gray-900 leading-tight">
+            <h1 className="text-5xl md:text-6xl font-bold text-slate-900 leading-tight">
               Lucas Lisboa Alves
             </h1>
 
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 leading-tight">
               Software / AI <span className="text-purple-primary">Engineer</span>
             </h2>
 
-            <p className="text-gray-600 text-lg leading-relaxed max-w-xl">
+            <p className="text-gray-700 text-lg leading-relaxed max-w-xl">
               I design, build, and ship production software across web, mobile, data, and intelligent
-              systems — from architecture and backend engineering to AI integration and cloud deployment.
+              systems. From architecture and backend engineering to AI integration and cloud deployment.
               My experience spans startups and enterprise environments, with a focus on solutions that
-              create real business value. I care as much about why a system is built as how it is built.
+              create real business value. 
             </p>
 
             <div className="flex items-center gap-4 pt-2">
@@ -213,7 +198,7 @@ export default function Hero() {
                 href="https://linkedin.com/in/lucaslisboadev"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-600 hover:text-purple-primary transition-colors"
+                className="text-slate-700 hover:text-purple-dark transition-colors"
                 aria-label="LinkedIn"
               >
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -224,7 +209,7 @@ export default function Hero() {
                 href="https://github.com/LucasLisboaDev"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-600 hover:text-purple-primary transition-colors"
+                className="text-slate-700 hover:text-purple-dark transition-colors"
                 aria-label="GitHub"
               >
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -240,7 +225,7 @@ export default function Hero() {
             <div className="flex flex-wrap items-center gap-4">
               <a
                 href="#contact"
-                className="inline-block bg-purple-primary text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-purple-dark transition-colors shadow-lg hover:shadow-xl"
+                className="inline-block bg-purple-dark text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-purple-primary transition-colors shadow-lg hover:shadow-xl"
               >
                 Get In Touch
               </a>
@@ -248,68 +233,21 @@ export default function Hero() {
             </div>
           </div>
 
-          <div className="relative flex items-center justify-center py-12">
-            <div className="absolute top-0 left-0 w-10 h-10 text-teal-primary opacity-80 animate-pulse">
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
-              </svg>
-            </div>
-            <div className="absolute top-8 left-4 w-6 h-6 text-teal-primary opacity-70">
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
-              </svg>
-            </div>
-
-            <div className="absolute top-4 right-12 w-8 h-8 text-purple-primary opacity-80">
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
-              </svg>
-            </div>
-
-            <div className="absolute bottom-20 right-8 w-6 h-6 text-purple-primary opacity-70">
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
-              </svg>
-            </div>
-
-            <div className="absolute bottom-12 left-0 w-8 h-8 text-teal-primary opacity-75">
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
-              </svg>
-            </div>
-            <div className="absolute bottom-4 left-12 w-6 h-6 text-teal-primary opacity-70">
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
-              </svg>
-            </div>
-
-            <div className="relative w-full max-w-md z-10">
-              <div className="relative bg-blue-200 rounded-2xl p-4 shadow-2xl">
-                <div className="relative aspect-[4/5] rounded-xl overflow-hidden">
-                  {profileImages.map((imageSrc, index) => (
-                    <Image
-                      key={imageSrc}
-                      src={imageSrc}
-                      alt="Lucas Lisboa"
-                      fill
-                      className={`object-cover absolute inset-0 transition-opacity duration-1000 ${
-                        index === currentImageIndex ? "opacity-100 z-10" : "opacity-0 z-0"
-                      }`}
-                      priority={index === 0}
-                    />
-                  ))}
-                </div>
-              </div>
-            </div>
+          <div className="relative z-10 flex items-center justify-center py-6 md:py-12">
+            <InteractiveTiltAvatar
+              src="/lucas-professional2-cutout.png"
+              alt="Lucas Lisboa Alves — Software / AI Engineer"
+              maxTilt={14}
+            />
           </div>
         </div>
 
-        <div className="relative z-[100] mt-14 max-w-5xl mx-auto bg-gradient-to-r from-purple-50 to-teal-50 border border-purple-100 rounded-2xl p-6 md:p-8 shadow-sm">
+        <div className="relative z-[100] mt-14 max-w-5xl mx-auto bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl p-6 md:p-8 shadow-sm">
           <div
             className={`flex flex-col gap-6 ${orbPhase !== null ? "lg:flex-row lg:items-center lg:justify-between lg:text-left" : "text-center"}`}
           >
             <div className={orbPhase !== null ? "min-w-0 flex-1 lg:pr-4" : "max-w-3xl mx-auto"}>
-              <p className="text-sm font-semibold uppercase tracking-wide text-purple-primary mb-2">
+              <p className="text-sm font-semibold uppercase tracking-wide text-purple-light mb-2">
                 AI Assistant
               </p>
               <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">

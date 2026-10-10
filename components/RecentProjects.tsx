@@ -63,7 +63,7 @@ export default function RecentProjects() {
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
   return (
-    <section id="recent-projects" className="py-24 px-6 bg-blue-light">
+    <section id="recent-projects" className="py-24 px-6 bg-transparent">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">

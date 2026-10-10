@@ -8,17 +8,24 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        // Professional slate / charcoal palette (replaces previous purple/teal brand)
         purple: {
-          primary: '#8B5CF6',
-          light: '#A78BFA',
-          dark: '#7C3AED',
+          50: '#F8FAFC',
+          100: '#F1F5F9',
+          200: '#E2E8F0',
+          primary: '#334155',
+          light: '#64748B',
+          dark: '#0F172A',
         },
         teal: {
-          primary: '#14B8A6',
-          light: '#5EEAD4',
+          50: '#F8FAFC',
+          100: '#F1F5F9',
+          200: '#E2E8F0',
+          primary: '#475569',
+          light: '#94A3B8',
         },
         blue: {
-          light: '#F0F9FF',
+          light: '#F8FAFC',
         },
       },
     },

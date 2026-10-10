@@ -16,25 +16,25 @@ export interface ColorScheme {
   glow: string;
 }
 
-/** Matches site tokens: purple primary #8B5CF6, teal primary #14B8A6, etc. */
+/** Matches site tokens: slate charcoal / steel grey professional palette. */
 const portfolioColors: Record<OrbState, ColorScheme> = {
   LISTENING: {
-    primary: "#14B8A6",
-    secondary: "#8B5CF6",
-    accent: "#5EEAD4",
-    glow: "#14B8A6",
+    primary: "#64748B",
+    secondary: "#334155",
+    accent: "#94A3B8",
+    glow: "#64748B",
   },
   THINKING: {
-    primary: "#7C3AED",
-    secondary: "#8B5CF6",
-    accent: "#A78BFA",
-    glow: "#8B5CF6",
+    primary: "#475569",
+    secondary: "#1E293B",
+    accent: "#94A3B8",
+    glow: "#475569",
   },
   SPEAKING: {
-    primary: "#A78BFA",
-    secondary: "#8B5CF6",
-    accent: "#14B8A6",
-    glow: "#5EEAD4",
+    primary: "#94A3B8",
+    secondary: "#334155",
+    accent: "#CBD5E1",
+    glow: "#94A3B8",
   },
   ERROR: {
     primary: "#dc2626",
