@@ -57,9 +57,10 @@
 }
 
 @layer utilities {
-  /* Display type: Archivo, expanded, all caps */
+  /* Display type: Archivo 800, expanded (112%), all caps. Uses the tiny static
+     headline instance first, falling back to the variable font. */
   .text-display {
-    font-family: var(--font-display), "Arial Black", Arial, sans-serif;
+    font-family: var(--font-headline), var(--font-display), "Arial Black", Arial, sans-serif;
     font-stretch: 112%;
     font-weight: 800;
     text-transform: uppercase;
@@ -67,33 +68,116 @@
     line-height: 0.92;
   }
 
-  /* Width helpers for the variable Archivo axis (Tailwind 3 has no font-stretch utility) */
+  /* Normal-width display type (section labels). Needs the variable font's
+     width axis, so it switches to it. Must stay after .text-display. */
   .stretch-normal {
+    font-family: var(--font-display), Arial, sans-serif;
     font-stretch: 100%;
   }
   .stretch-expanded {
     font-stretch: 112%;
   }
 
-  /* Outlined display text. Only use at headline scale, next to a solid word. */
-  .text-outline {
+  /* Outlined display text. Only use at headline scale, next to a solid word.
+     The static headline font has its overlapping shapes merged, so the stroke
+     draws a clean outline (the variable font showed stray lines inside "A"). */
+  .text-outline,
+  .text-outline-light {
+    font-family: var(--font-headline), var(--font-display), "Arial Black", sans-serif;
+    font-weight: 800;
     color: transparent;
+  }
+  .text-outline {
     -webkit-text-stroke: 2px rgb(var(--color-ink));
   }
   .text-outline-light {
-    color: transparent;
     -webkit-text-stroke: 2px rgb(var(--color-canvas));
   }
 }
 
-/* Respect the visitor's reduced motion setting everywhere CSS animates. */
+/*
+ * Hero intro (Phase 2). Pure CSS so it starts on the very first paint, before
+ * any JavaScript loads, and the whole sequence finishes within 1.6s:
+ * LUCAS letters from 0.15s, LISBOA from 0.35s (30ms apart), portrait rises
+ * at 0.5s, then the role, intro, buttons and links stagger in from 0.8s.
+ * --d is the start delay and --i the letter index, set inline per element.
+ */
+.hero-mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding: 0 0.02em 0.04em;
+}
+.hero-letter {
+  display: inline-block;
+  animation: hero-up var(--dur-slow) var(--ease-reveal) both;
+  animation-delay: calc(var(--d, 0s) + var(--i, 0) * 30ms);
+}
+.hero-rise {
+  animation: hero-rise var(--dur-slow) var(--ease-reveal) 0.5s both;
+}
+.hero-in {
+  animation: hero-rise var(--dur-base) var(--ease-reveal) both;
+  animation-delay: var(--d, 0.8s);
+}
+@keyframes hero-up {
+  from {
+    transform: translateY(105%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Idle Maya orb in the brand palette */
+@keyframes orb-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.06);
+  }
+}
+@keyframes orb-ring {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+.orb-breathe {
+  animation: orb-breathe 4.5s ease-in-out infinite;
+}
+.orb-ring {
+  animation: orb-ring 3s ease-out infinite;
+}
+
+/* Respect the visitor's reduced motion setting everywhere CSS animates.
+   Delays are zeroed too, otherwise delayed entrances would sit invisible
+   for a moment and then pop in. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
     scroll-behavior: auto !important;
   }
 }

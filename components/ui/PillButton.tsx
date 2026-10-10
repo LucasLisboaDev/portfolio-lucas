@@ -91,7 +91,10 @@ export default function PillButton(props: LinkProps | ButtonProps) {
 
   if (typeof rest.href === "string") {
     const { href, ...anchorRest } = rest as LinkProps;
-    const isInternalRoute = href.startsWith("/") && !href.startsWith("//");
+    // Page routes go through Next.js Link. API routes (such as the resume PDF)
+    // must be plain anchors, because they return files, not pages.
+    const isInternalRoute =
+      href.startsWith("/") && !href.startsWith("//") && !href.startsWith("/api/");
     const isExternal = /^https?:\/\//.test(href);
 
     if (isInternalRoute) {

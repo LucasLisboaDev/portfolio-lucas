@@ -1,8 +1,26 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import PillButton from "@/components/ui/PillButton";
+import { Close } from "@/components/ui/icons";
+import { cn } from "@/lib/cn";
 
-export default function ResumeAccess() {
+type ResumeAccessProps = {
+  /** Stretch the trigger button to full width (phones). */
+  block?: boolean;
+  className?: string;
+};
+
+/**
+ * "View Resume" button plus the email-gated resume dialog.
+ *
+ * The access logic is unchanged from the original component: it checks
+ * /api/resume-access on load, asks for an email when needed, and then offers
+ * /api/resume to view or download. Phase 2 restyled it in the new design and
+ * added Escape to close, focus moving into the dialog on open, and focus
+ * returning to the button on close.
+ */
+export default function ResumeAccess({ block = false, className }: ResumeAccessProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [hasAccess, setHasAccess] = useState(false);
@@ -11,6 +29,9 @@ export default function ResumeAccess() {
     type: "success" | "error" | null;
     message: string;
   }>({ type: null, message: "" });
+
+  const triggerRef = useRef<HTMLDivElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
 
   const checkAccess = useCallback(async () => {
     try {
@@ -33,10 +54,23 @@ export default function ResumeAccess() {
     setStatus({ type: null, message: "" });
   };
 
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     setIsOpen(false);
     setStatus({ type: null, message: "" });
-  };
+    triggerRef.current?.querySelector("button")?.focus();
+  }, []);
+
+  // Escape closes the dialog; focus moves to its first field or action.
+  useEffect(() => {
+    if (!isOpen) return;
+    const first = dialogRef.current?.querySelector<HTMLElement>("input, a[href], button:not([aria-label='Close'])");
+    first?.focus();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeModal();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [isOpen, closeModal]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -75,112 +109,88 @@ export default function ResumeAccess() {
 
   return (
     <>
-      <button
-        type="button"
-        onClick={openModal}
-        className="inline-block border-2 border-purple-primary text-purple-primary px-8 py-4 rounded-xl font-semibold text-lg hover:bg-purple-primary hover:text-white transition-colors"
-      >
-        View Resume
-      </button>
+      <div ref={triggerRef} className={cn(block && "w-full", className)}>
+        <PillButton variant="secondary" block={block} onClick={openModal} aria-haspopup="dialog">
+          View Resume
+        </PillButton>
+      </div>
 
       {isOpen && (
         <div
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="resume-access-title"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-ink/60 p-4 backdrop-blur-sm"
           onClick={closeModal}
         >
           <div
-            className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8"
+            ref={dialogRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="resume-access-title"
+            aria-describedby="resume-access-desc"
+            className="w-full max-w-md rounded-card bg-canvas p-8 text-ink shadow-float"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-start justify-between gap-4 mb-6">
-              <div>
-                <h3
-                  id="resume-access-title"
-                  className="text-2xl font-bold text-gray-900"
-                >
-                  {hasAccess ? "Your resume" : "Access my resume"}
+            <div className="mb-8 flex items-start justify-between gap-4">
+              <div className="flex flex-col gap-3">
+                <span className="text-display stretch-normal text-meta tracking-[0.08em] text-accent">/Resume</span>
+                <h3 id="resume-access-title" className="font-display text-2xl font-bold">
+                  {hasAccess ? "Your copy is ready" : "Access my resume"}
                 </h3>
-                <p className="text-gray-600 mt-2 text-sm">
+                <p id="resume-access-desc" className="text-sm leading-relaxed text-muted">
                   {hasAccess
-                    ? "Open in the browser or save a copy."
+                    ? "Open it in the browser or save a copy."
                     : "Enter your email to view or download my resume."}
                 </p>
               </div>
               <button
                 type="button"
                 onClick={closeModal}
-                className="text-gray-400 hover:text-gray-600 transition-colors p-1"
                 aria-label="Close"
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-line transition-colors duration-fast hover:bg-ink hover:text-canvas"
               >
-                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
+                <Close size={18} />
               </button>
             </div>
 
             {hasAccess ? (
-              <div className="flex flex-col sm:flex-row gap-3">
-                <a
-                  href="/api/resume"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 text-center bg-purple-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-dark transition-colors"
-                >
+              <div className="flex flex-col gap-3 sm:flex-row">
+                <PillButton href="/api/resume" target="_blank" rel="noopener noreferrer" arrow className="flex-1">
                   View PDF
-                </a>
-                <a
-                  href="/api/resume?download=1"
-                  className="flex-1 text-center border-2 border-purple-primary text-purple-primary px-6 py-3 rounded-lg font-semibold hover:bg-purple-primary hover:text-white transition-colors"
-                >
+                </PillButton>
+                <PillButton href="/api/resume?download=1" variant="secondary" className="flex-1">
                   Download
-                </a>
+                </PillButton>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                  <label htmlFor="resume-email" className="block text-gray-900 font-medium mb-2">
-                    Email
-                  </label>
+              <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+                <label className="flex flex-col gap-1 text-xs font-semibold uppercase tracking-[0.08em] text-muted">
+                  Email
                   <input
                     type="email"
-                    id="resume-email"
                     name="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
                     autoComplete="email"
-                    className="w-full px-4 py-3 border-2 border-purple-light rounded-lg focus:outline-none focus:border-purple-primary transition-colors"
                     placeholder="you@company.com"
+                    className="w-full rounded-none border-0 border-b border-line bg-transparent py-3.5 text-[17px] font-normal normal-case tracking-normal text-ink placeholder:text-muted/70 focus:border-ink focus:outline-none focus:ring-0"
                   />
-                </div>
+                </label>
 
                 {status.type && (
-                  <div
-                    className={`p-3 rounded-lg text-sm ${
-                      status.type === "success"
-                        ? "bg-green-50 text-green-800 border border-green-200"
-                        : "bg-red-50 text-red-800 border border-red-200"
-                    }`}
+                  <p
+                    role={status.type === "error" ? "alert" : "status"}
+                    className={cn(
+                      "rounded-card px-4 py-3 text-sm",
+                      status.type === "success" ? "bg-surface text-ink" : "bg-red-50 text-red-800",
+                    )}
                   >
                     {status.message}
-                  </div>
+                  </p>
                 )}
 
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full bg-purple-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {isSubmitting ? "Verifying..." : "Continue"}
-                </button>
+                <PillButton type="submit" disabled={isSubmitting} block arrow={!isSubmitting}>
+                  {isSubmitting ? "Verifying…" : "Continue"}
+                </PillButton>
               </form>
             )}
           </div>

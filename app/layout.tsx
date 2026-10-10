@@ -4,15 +4,39 @@ import ElevenLabsConvaiWidget from "@/components/ElevenLabsConvaiWidget";
 import MotionProvider from "@/components/motion/MotionProvider";
 import SmoothScroll from "@/components/motion/SmoothScroll";
 
-/**
+/*
  * Fonts are self-hosted from app/fonts (SIL Open Font License, see
- * app/fonts/OFL-LICENSES.txt). Loading them locally keeps builds deterministic:
- * no request to Google Fonts at build time, so CI, preview deployments and
- * offline builds all behave the same.
+ * app/fonts/OFL-LICENSES.txt), so builds never depend on Google Fonts.
  *
- * - Archivo (display): variable weight 100–900 and width 62–125%. The redesign
- *   uses it expanded (font-stretch 112%) and in all caps for headlines.
- * - Inter (body/UI): variable weight 100–900.
+ * Note: fallback lists must not contain "Arial Black". next/font writes the
+ * fallbacks into a CSS variable unquoted, and the CSS minifier then reads
+ * "Black" as the color black, which silently invalidates the whole font stack.
+ */
+
+/**
+ * Headline: a static Archivo instance at weight 800 and width 112%, subset to
+ * Basic Latin (about 7 KB). Generated from the variable font with fontTools'
+ * instancer using OverlapMode.REMOVE, which merges the overlapping shapes
+ * variable fonts are built from. That serves two purposes:
+ * - Outlined words (LUCAS, the footer wordmark) render cleanly. A stroke on
+ *   the variable font traced its internal overlaps (a stray box in the "A").
+ * - The hero only needs this one tiny file, instead of the 88 KB variable
+ *   font, which keeps Largest Contentful Paint fast on slow connections.
+ * Used by .text-display and .text-outline in globals.css. Preloaded.
+ */
+const headline = localFont({
+  src: "./fonts/Archivo-Headline-800-112.woff2",
+  variable: "--font-headline",
+  weight: "800",
+  display: "swap",
+  fallback: ["Arial", "sans-serif"],
+});
+
+/**
+ * Display: the full variable Archivo (weight 100–900, width 62–125%), for
+ * everything that is not the 800/112% headline style: section labels at
+ * normal width, card titles at 700, and so on. Mostly below the fold, so it
+ * is not preloaded; it loads as soon as the page first uses it.
  */
 const display = localFont({
   src: "./fonts/Archivo-Variable-latin.woff2",
@@ -20,14 +44,11 @@ const display = localFont({
   weight: "100 900",
   display: "swap",
   declarations: [{ prop: "font-stretch", value: "62% 125%" }],
-  fallback: ["Arial Black", "Arial", "system-ui", "sans-serif"],
-  // Not preloaded yet: no above-the-fold text uses Archivo until the hero is
-  // rebuilt in Phase 2. Preloading an unused 88 KB font competed with the hero
-  // text for bandwidth and pushed LCP from 2.84s to 3.01s. Turn this back on
-  // (remove the line) when the new hero ships.
+  fallback: ["Arial", "system-ui", "sans-serif"],
   preload: false,
 });
 
+/** Body and UI: Inter variable, weight 100–900. */
 const sans = localFont({
   src: "./fonts/Inter-Variable-latin.woff2",
   variable: "--font-sans",
@@ -37,9 +58,9 @@ const sans = localFont({
 });
 
 export const metadata = {
-  title: "Lucas Lisboa Alves | Software / AI Engineer",
+  title: "Lucas Lisboa Alves | AI Engineer",
   description:
-    "Software / AI Engineer with full-stack experience building production applications across web, mobile, data, and intelligent systems — from architecture to cloud deployment.",
+    "AI Engineer with full-stack experience building production applications across web, mobile, data, and intelligent systems, from architecture to cloud deployment.",
 };
 
 export default function RootLayout({
@@ -48,7 +69,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${sans.variable} ${display.variable}`}>
+    <html lang="en" className={`${sans.variable} ${display.variable} ${headline.variable}`}>
       <body className="font-sans">
         <MotionProvider>
           <SmoothScroll />

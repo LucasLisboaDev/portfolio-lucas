@@ -7,6 +7,17 @@ import "lenis/dist/lenis.css";
 /** Height of the sticky navbar, so anchor jumps land below it. */
 const NAV_OFFSET = -88;
 
+let instance: Lenis | null = null;
+
+/**
+ * The running Lenis instance, or null when smooth scrolling is off (touch
+ * devices still have an instance but Lenis ignores touch; reduced motion has
+ * none). Used by overlays such as the mobile menu to pause page scrolling.
+ */
+export function getLenis(): Lenis | null {
+  return instance;
+}
+
 /**
  * Inertia-style smooth scrolling for mouse wheels and trackpads (Lenis).
  *
@@ -22,11 +33,10 @@ const NAV_OFFSET = -88;
 export default function SmoothScroll() {
   useEffect(() => {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
-    let lenis: Lenis | null = null;
 
     const start = () => {
-      if (lenis || reduce.matches) return;
-      lenis = new Lenis({
+      if (instance || reduce.matches) return;
+      instance = new Lenis({
         autoRaf: true,
         duration: 1.1,
         // Exponential ease out: quick response, long gentle settle.
@@ -36,8 +46,8 @@ export default function SmoothScroll() {
     };
 
     const stop = () => {
-      lenis?.destroy();
-      lenis = null;
+      instance?.destroy();
+      instance = null;
     };
 
     const onChange = () => (reduce.matches ? stop() : start());

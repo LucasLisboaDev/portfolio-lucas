@@ -1,5 +1,6 @@
-import Navbar from "@/components/Navbar";
-import Hero from "@/components/Hero";
+import Nav from "@/components/sections/Nav";
+import Hero from "@/components/sections/Hero";
+import TalkToMaya from "@/components/sections/TalkToMaya";
 import Portfolio from "@/components/Portfolio";
 import RecentProjects from "@/components/RecentProjects";
 import About from "@/components/About";
@@ -11,23 +12,25 @@ import Footer from "@/components/Footer";
 /**
  * Home page.
  *
- * Phase 0 of the redesign removed the full-screen WebGL gradient that used to
- * sit behind every section. The page now renders on the flat `canvas`
- * background from the design tokens. The sections below are rebuilt one by one
- * in Phases 2 to 5 (see docs/ANIMATED_PORTFOLIO_PLAN.md).
+ * Redesigned so far: Nav, Hero and Talk to Maya (Phase 2), on the motion
+ * system from Phase 1. The remaining sections below still use the previous
+ * design and are rebuilt in Phases 3 to 5 (see docs/ANIMATED_PORTFOLIO_PLAN.md).
  */
 export default function Home() {
   return (
-    <main className="relative bg-canvas">
-      <Navbar />
-      <Hero />
-      <Portfolio />
-      <RecentProjects />
-      <About />
-      <Testimonials />
-      <Certificates />
-      <Contact />
+    <>
+      <Nav />
+      <main id="main" className="relative bg-canvas">
+        <Hero />
+        <TalkToMaya />
+        <Portfolio />
+        <RecentProjects />
+        <About />
+        <Testimonials />
+        <Certificates />
+        <Contact />
+      </main>
       <Footer />
-    </main>
+    </>
   );
 }

@@ -25,7 +25,15 @@ Photography and company logos render in grayscale by default and restore their c
 
 ## Typography
 
-Both fonts are self-hosted variable fonts in `app/fonts` (SIL Open Font License), loaded with `next/font/local`.
+All fonts are self-hosted in `app/fonts` (SIL Open Font License) and loaded with `next/font/local`. There are three files:
+
+| File | What it is | Size | Loading |
+|---|---|---|---|
+| `Archivo-Headline-800-112.woff2` | Static Archivo, weight 800, width 112%, overlaps merged, Basic Latin | 7 KB | Preloaded |
+| `Archivo-Variable-latin.woff2` | Full variable Archivo, weight 100 to 900, width 62 to 125% | 88 KB | On first use |
+| `Inter-Variable-latin.woff2` | Variable Inter, weight 100 to 900 | 47 KB | Preloaded |
+
+`text-display` and `text-outline` use the headline file, which is all the hero needs. `stretch-normal` and the `font-display` Tailwind family use the variable file. For display text above the fold, prefer `text-display` or `font-headline` so the 88 KB file stays off the critical path. Do not add "Arial Black" to a `next/font` fallback list: it is written unquoted into a CSS variable and the minifier reads "Black" as a color, which breaks the whole font stack.
 
 | Role | Font | Class | Size |
 |---|---|---|---|
