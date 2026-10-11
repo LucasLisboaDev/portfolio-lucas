@@ -1,28 +1,36 @@
 "use client";
 
-import { LazyMotion, MotionConfig, domAnimation } from "motion/react";
+import { LazyMotion, MotionConfig } from "motion/react";
 import type { ReactNode } from "react";
 import { revealTransition } from "@/lib/motion";
 
 /**
  * Wraps the app with Motion's configuration.
  *
- * LazyMotion + domAnimation loads only the animation features the site uses
- * (animations, variants, hover/tap/focus and in-view gestures) instead of the
- * full library, which keeps the JavaScript bundle small. `strict` makes any
- * accidental use of the heavier `motion.*` components throw in development,
- * so everything goes through the lightweight `m.*` components.
+ * LazyMotion loads only the feature set the site uses, and every component
+ * uses the lightweight `m.*` components (`strict` makes accidental use of the
+ * heavier `motion.*` components throw in development).
+ *
+ * Phase 3 moved from domAnimation to domMax, which adds layout animations:
+ * the Selected Work grid uses them so cards glide into place when a filter
+ * changes. (Page transitions use the browser's View Transitions API instead,
+ * see ViewTransitions.tsx.)
+ *
+ * The features load asynchronously (a separate chunk fetched right after
+ * hydration), which keeps their parsing and evaluation out of the critical
+ * startup work. Elements simply hold their initial state for those few
+ * milliseconds; nothing above the fold depends on Motion (the hero intro is
+ * pure CSS).
  *
  * reducedMotion="user" follows the visitor's system setting: when reduced
- * motion is on, Motion skips transform animations (movement, scale) and keeps
- * only opacity, so reveals become simple fades.
- *
- * Phase 3 switches the features to domMax, which adds the layout animations
- * needed for shared-element page transitions.
+ * motion is on, Motion skips transform and layout animations and keeps only
+ * opacity, so everything becomes a simple fade.
  */
+const loadFeatures = () => import("@/lib/motion-features").then((mod) => mod.default);
+
 export default function MotionProvider({ children }: { children: ReactNode }) {
   return (
-    <LazyMotion features={domAnimation} strict>
+    <LazyMotion features={loadFeatures} strict>
       <MotionConfig reducedMotion="user" transition={revealTransition}>
         {children}
       </MotionConfig>

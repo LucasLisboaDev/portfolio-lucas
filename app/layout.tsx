@@ -1,8 +1,8 @@
 import "./globals.css";
 import localFont from "next/font/local";
-import ElevenLabsConvaiWidget from "@/components/ElevenLabsConvaiWidget";
 import MotionProvider from "@/components/motion/MotionProvider";
 import SmoothScroll from "@/components/motion/SmoothScroll";
+import ViewTransitions from "@/components/motion/ViewTransitions";
 
 /*
  * Fonts are self-hosted from app/fonts (SIL Open Font License, see
@@ -79,9 +79,10 @@ export default function RootLayout({
             where browsers turn it into overflow: hidden on the viewport)
             stops sideways scrolling without breaking position: sticky.
           */}
-          <div className="relative overflow-x-clip">{children}</div>
+          <ViewTransitions>
+            <div className="relative overflow-x-clip">{children}</div>
+          </ViewTransitions>
         </MotionProvider>
-        <ElevenLabsConvaiWidget />
       </body>
     </html>
   );

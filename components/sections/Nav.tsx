@@ -11,11 +11,11 @@ const pad = (n: number) => String(n).padStart(2, "0");
  * used for the link counts never ships to the browser; only the small mobile
  * menu is interactive.
  *
- * The anchors point at the current section ids. They switch to the new ids as
- * each section is rebuilt (Work in Phase 3, Experience in Phase 4).
+ * Work points at the rebuilt Selected Work section (Phase 3). Experience still
+ * points at the previous section's id and switches when it is rebuilt in Phase 4.
  */
 export const navLinks: NavLink[] = [
-  { href: "#recent-projects", label: "Work", count: pad(githubProjects.length) },
+  { href: "#work", label: "Work", count: pad(githubProjects.length) },
   { href: "#portfolio", label: "Experience", count: pad(workExperience.length) },
   { href: "#about", label: "About" },
   { href: "#contact", label: "Contact" },

@@ -10,10 +10,17 @@ export interface ProjectSection {
   table?: ProjectTable;
 }
 
+export type ProjectCategory = "Agentic AI" | "RAG & Search" | "ML Research" | "Full Stack";
+
 export interface GitHubProject {
+  /** Also the URL slug: /work/<id> */
   id: string;
   title: string;
   subtitle: string;
+  /** Filter chip on the homepage and tag on the case study. */
+  category: ProjectCategory;
+  /** Short title for the typographic cover. "\n" starts a new line. */
+  coverTitle: string;
   summary: string;
   highlight?: string;
   tech: string[];
@@ -24,9 +31,64 @@ export interface GitHubProject {
 
 export const githubProjects: GitHubProject[] = [
   {
+    id: "jiujitsu-jobs",
+    title: "JiuJitsuJobs",
+    subtitle: "Two-sided BJJ coaching marketplace",
+    category: "Full Stack",
+    coverTitle: "JiuJitsu\nJobs",
+    summary:
+      "A two-sided job marketplace connecting Brazilian jiu-jitsu coaches with gyms looking to hire — built end to end as a solo founder and developer. Purpose-built for the sport with belt rank verification, gi/no-gi specialization, competition history, and affiliation tracking.",
+    highlight: "Solo founder. Full-stack product from domain model to production deployment.",
+    tech: [
+      "Next.js 14",
+      "TypeScript",
+      "Tailwind CSS",
+      "PostgreSQL",
+      "Prisma",
+      "Clerk",
+      "Resend",
+      "Railway",
+    ],
+    liveUrl: "https://jiujitsujobs.net",
+    githubUrl: "https://github.com/LucasLisboaDev/BJJJobs",
+    sections: [
+      {
+        heading: "Problem & approach",
+        paragraphs: [
+          "The BJJ coaching industry runs almost entirely on personal networks and word of mouth, leaving talented coaches without visibility and gyms without an efficient way to find qualified instructors.",
+          "JiuJitsuJobs solves this with a purpose-built platform that understands the sport — belt rank verification, gi/no-gi specialization, competition history, and affiliation tracking, all wrapped in a clean, modern interface.",
+        ],
+      },
+      {
+        heading: "Key features",
+        bullets: [
+          "Dual-sided registration flow for coaches and gyms, each with tailored onboarding.",
+          "Real-time job search and filtering by city, belt rank, and job type.",
+          "Application system with cover messages and duplicate-prevention logic.",
+          "Role-aware dashboard — gyms manage listings and review applicants, coaches track application history.",
+          "Public coach profiles showcasing belt rank, specialties, and competition background.",
+          "Bilingual support (English/Portuguese) for the international BJJ community.",
+        ],
+      },
+      {
+        heading: "Stack",
+        bullets: [
+          "Frontend: Next.js 14 (App Router) · TypeScript · Tailwind CSS",
+          "Database: PostgreSQL · Prisma ORM",
+          "Auth: Clerk",
+          "Email: Resend (transactional)",
+          "Deployment: Railway · custom domain (jiujitsujobs.net)",
+          "Repo: LucasLisboaDev/BJJJobs",
+        ],
+      },
+    ],
+  },
+  {
     id: "ai-content-pipeline",
     title: "AI Content Pipeline",
     subtitle: "Autonomous content engine",
+    category: "Agentic AI",
+    coverTitle: "AI Content\nPipeline",
     summary:
       "An end-to-end autonomous content engine that discovers trending topics via live web search, researches competitor gaps, drafts SEO-optimized posts with GPT-4o, and publishes to Ghost CMS — orchestrated on a recurring n8n schedule with zero manual intervention.",
     highlight: "Draft-first publishing. Four independently deployable FastAPI services.",
@@ -71,6 +133,8 @@ export const githubProjects: GitHubProject[] = [
     id: "email-calendar-agent",
     title: "Email & Calendar Automation Agent",
     subtitle: "Agentic email triage & scheduling",
+    category: "Agentic AI",
+    coverTitle: "Email &\nCalendar Agent",
     summary:
       "A production-grade agentic AI system that autonomously manages email triage, smart reply drafting, and meeting scheduling using a full-stack Python and React architecture deployed on Railway and Vercel.",
     highlight: "Human-in-the-loop for high-stakes actions. Full distributed tracing on every run.",
@@ -128,6 +192,8 @@ export const githubProjects: GitHubProject[] = [
     id: "production-rag-pipeline",
     title: "Production RAG Pipeline",
     subtitle: "ArXiv Research Assistant",
+    category: "RAG & Search",
+    coverTitle: "Production\nRAG Pipeline",
     summary:
       "A production-grade Retrieval-Augmented Generation system that answers natural language questions about AI research papers with fully cited, grounded responses. Built to demonstrate the enterprise RAG pattern used in real-world document intelligence systems.",
     tech: [
@@ -182,6 +248,8 @@ export const githubProjects: GitHubProject[] = [
     id: "talentmatch-ai",
     title: "TalentMatch.ai",
     subtitle: "Fine-tuning research study",
+    category: "ML Research",
+    coverTitle: "Talent\nMatch.ai",
     summary:
       "A 6-experiment ML research project investigating automated resume-to-job-description fit scoring using fine-tuned transformer models. Starting from a regression approach and iterating through LoRA fine-tuning, dataset comparison, and 3-class classification, the project systematically identified why public datasets fail for this problem and what it would take to solve it in production.",
     highlight:
@@ -234,6 +302,8 @@ export const githubProjects: GitHubProject[] = [
     id: "offline-llm-engineering",
     title: "offline-llm-engineering",
     subtitle: "Local LLM inference & benchmarking",
+    category: "ML Research",
+    coverTitle: "Offline LLM\nEngineering",
     summary:
       "Offline LLM inference pipeline benchmarking Llama 3.2 3B, Phi-4 Mini, and Mistral 7B on a consumer Intel Mac — zero cloud dependency. Covers CLI streaming, automated benchmarks, Pydantic structured outputs, and a 180-run model comparison study.",
     highlight: "300+ inference calls. Real numbers. No cherry-picking.",
@@ -324,57 +394,6 @@ export const githubProjects: GitHubProject[] = [
             ["Prompt injection defense", "comparison_study.py CONCISE_SUFFIX"],
           ],
         },
-      },
-    ],
-  },
-  {
-    id: "jiujitsu-jobs",
-    title: "JiuJitsuJobs",
-    subtitle: "Two-sided BJJ coaching marketplace",
-    summary:
-      "A two-sided job marketplace connecting Brazilian jiu-jitsu coaches with gyms looking to hire — built end to end as a solo founder and developer. Purpose-built for the sport with belt rank verification, gi/no-gi specialization, competition history, and affiliation tracking.",
-    highlight: "Solo founder. Full-stack product from domain model to production deployment.",
-    tech: [
-      "Next.js 14",
-      "TypeScript",
-      "Tailwind CSS",
-      "PostgreSQL",
-      "Prisma",
-      "Clerk",
-      "Resend",
-      "Railway",
-    ],
-    liveUrl: "https://jiujitsujobs.net",
-    githubUrl: "https://github.com/LucasLisboaDev/BJJJobs",
-    sections: [
-      {
-        heading: "Problem & approach",
-        paragraphs: [
-          "The BJJ coaching industry runs almost entirely on personal networks and word of mouth, leaving talented coaches without visibility and gyms without an efficient way to find qualified instructors.",
-          "JiuJitsuJobs solves this with a purpose-built platform that understands the sport — belt rank verification, gi/no-gi specialization, competition history, and affiliation tracking, all wrapped in a clean, modern interface.",
-        ],
-      },
-      {
-        heading: "Key features",
-        bullets: [
-          "Dual-sided registration flow for coaches and gyms, each with tailored onboarding.",
-          "Real-time job search and filtering by city, belt rank, and job type.",
-          "Application system with cover messages and duplicate-prevention logic.",
-          "Role-aware dashboard — gyms manage listings and review applicants, coaches track application history.",
-          "Public coach profiles showcasing belt rank, specialties, and competition background.",
-          "Bilingual support (English/Portuguese) for the international BJJ community.",
-        ],
-      },
-      {
-        heading: "Stack",
-        bullets: [
-          "Frontend: Next.js 14 (App Router) · TypeScript · Tailwind CSS",
-          "Database: PostgreSQL · Prisma ORM",
-          "Auth: Clerk",
-          "Email: Resend (transactional)",
-          "Deployment: Railway · custom domain (jiujitsujobs.net)",
-          "Repo: LucasLisboaDev/BJJJobs",
-        ],
       },
     ],
   },
