@@ -4,9 +4,6 @@ import { useEffect } from "react";
 import Lenis from "lenis";
 import "lenis/dist/lenis.css";
 
-/** Height of the sticky navbar, so anchor jumps land below it. */
-const NAV_OFFSET = -88;
-
 let instance: Lenis | null = null;
 
 /**
@@ -25,7 +22,9 @@ export function getLenis(): Lenis | null {
  *   so phones feel exactly like phones.
  * - Turned off entirely when the visitor prefers reduced motion, and turned
  *   on or off live if they change that setting while the page is open.
- * - Handles in-page anchor links (#work, #contact) with an offset for the navbar.
+ * - Handles in-page anchor links (#work, #contact). Lenis honors each
+ *   target's CSS scroll-margin-top, which globals.css sets for every section
+ *   so jumps land just below the sticky navbar, with or without Lenis.
  *
  * Lenis drives the real window scroll position, so native features such as
  * position: sticky, scroll restoration and Motion's useScroll keep working.
@@ -41,7 +40,7 @@ export default function SmoothScroll() {
         duration: 1.1,
         // Exponential ease out: quick response, long gentle settle.
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        anchors: { offset: NAV_OFFSET },
+        anchors: true,
       });
     };
 

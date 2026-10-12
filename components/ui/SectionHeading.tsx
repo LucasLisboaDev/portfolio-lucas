@@ -12,7 +12,8 @@ import { cn } from "@/lib/cn";
 import { distance } from "@/lib/motion";
 import Reveal from "@/components/motion/Reveal";
 
-type Tone = "light" | "surface" | "dark";
+/** "invert" follows an .invertible parent section (light or dark as it flips). */
+type Tone = "light" | "surface" | "dark" | "invert";
 
 type SectionHeadingProps = {
   /** Label shown after the slash, for example "Selected Work". */
@@ -32,6 +33,14 @@ const ghostColor: Record<Tone, string> = {
   light: "text-ghost",
   surface: "text-line",
   dark: "text-ink-surface",
+  invert: "text-inv-ghost transition-colors duration-base ease-page",
+};
+
+const metaColor: Record<Tone, string> = {
+  light: "text-muted",
+  surface: "text-muted",
+  dark: "text-ink-muted",
+  invert: "text-inv-muted transition-colors duration-base ease-page",
 };
 
 /**
@@ -87,7 +96,7 @@ export default function SectionHeading({
         {meta && (
           <Reveal
             delay={0.08}
-            className={cn("text-sm", tone === "dark" ? "text-ink-muted" : "text-muted")}
+            className={cn("text-sm", metaColor[tone])}
           >
             {meta}
           </Reveal>

@@ -9,6 +9,11 @@ const defaultTheme = require('tailwindcss/defaultTheme');
 const token = (name) => `rgb(var(--color-${name}) / <alpha-value>)`;
 
 module.exports = {
+  // hover: styles only apply on devices that can really hover, so tapping a
+  // row on a phone does not leave it stuck in its hover state.
+  future: {
+    hoverOnlyWhenSupported: true,
+  },
   content: [
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -36,6 +41,20 @@ module.exports = {
           soft: token('accent-soft'),
         },
         status: token('status'),
+
+        // ── Invertible palette ───────────────────────────────────────────
+        // Used inside `.invertible` sections (Experience). The variables flip
+        // between the light and dark sets when the section is inverted, so a
+        // single class like `text-inv-muted` follows the section's state.
+        inv: {
+          bg: 'rgb(var(--inv-bg) / <alpha-value>)',
+          fg: 'rgb(var(--inv-fg) / <alpha-value>)',
+          muted: 'rgb(var(--inv-muted) / <alpha-value>)',
+          line: 'rgb(var(--inv-line) / <alpha-value>)',
+          ghost: 'rgb(var(--inv-ghost) / <alpha-value>)',
+          chip: 'rgb(var(--inv-chip) / <alpha-value>)',
+          accent: 'rgb(var(--inv-accent) / <alpha-value>)',
+        },
 
         // ── Legacy slate palette ─────────────────────────────────────────
         // Still used by the current sections. Remove once every section has

@@ -12,7 +12,7 @@ export default function SelectedWork() {
   const cards = getProjectCards();
 
   return (
-    <section id="work" aria-labelledby="work-h" className="scroll-mt-20 pb-section-sm pt-20 md:pb-section md:pt-28">
+    <section id="work" aria-labelledby="work-h" className="pb-section-sm pt-20 md:pb-section md:pt-28">
       <div className="mx-auto max-w-content px-gutter-sm md:px-gutter">
         <SectionHeading
           label="Selected Work"

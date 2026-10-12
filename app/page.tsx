@@ -2,7 +2,8 @@ import Nav from "@/components/sections/Nav";
 import Hero from "@/components/sections/Hero";
 import TalkToMaya from "@/components/sections/TalkToMaya";
 import SelectedWork from "@/components/sections/SelectedWork";
-import Portfolio from "@/components/Portfolio";
+import Capabilities from "@/components/sections/Capabilities";
+import Experience from "@/components/sections/Experience";
 import About from "@/components/About";
 import Testimonials from "@/components/Testimonials";
 import Certificates from "@/components/Certificates";
@@ -13,8 +14,9 @@ import Footer from "@/components/Footer";
  * Home page.
  *
  * Redesigned so far: Nav, Hero and Talk to Maya (Phase 2) and Selected Work
- * with its case study pages (Phase 3). The remaining sections below still use
- * the previous design and are rebuilt in Phases 4 and 5
+ * with its case study pages (Phase 3), Capabilities and Experience (Phase 4).
+ * The remaining sections below still use the previous design and are rebuilt
+ * in Phase 5
  * (see docs/ANIMATED_PORTFOLIO_PLAN.md).
  */
 export default function Home() {
@@ -25,7 +27,8 @@ export default function Home() {
         <Hero />
         <TalkToMaya />
         <SelectedWork />
-        <Portfolio />
+        <Capabilities />
+        <Experience />
         <About />
         <Testimonials />
         <Certificates />

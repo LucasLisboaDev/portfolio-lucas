@@ -1,5 +1,6 @@
 import { githubProjects } from "@/data/github-projects";
 import { workExperience } from "@/data/workExperience";
+import { capabilities } from "@/data/capabilities";
 import StatusPill from "@/components/ui/StatusPill";
 import PillButton from "@/components/ui/PillButton";
 import MobileMenu, { type NavLink } from "./MobileMenu";
@@ -11,14 +12,15 @@ const pad = (n: number) => String(n).padStart(2, "0");
  * used for the link counts never ships to the browser; only the small mobile
  * menu is interactive.
  *
- * Work points at the rebuilt Selected Work section (Phase 3). Experience still
- * points at the previous section's id and switches when it is rebuilt in Phase 4.
+ * Contact lives in the "Let's Talk" button rather than the link list, as in
+ * the approved design. About still points at the previous section's id until
+ * it is rebuilt in Phase 5.
  */
 export const navLinks: NavLink[] = [
   { href: "#work", label: "Work", count: pad(githubProjects.length) },
-  { href: "#portfolio", label: "Experience", count: pad(workExperience.length) },
+  { href: "#capabilities", label: "Capabilities", count: pad(capabilities.length) },
+  { href: "#experience", label: "Experience", count: pad(workExperience.length) },
   { href: "#about", label: "About" },
-  { href: "#contact", label: "Contact" },
 ];
 
 export default function Nav() {

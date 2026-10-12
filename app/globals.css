@@ -54,6 +54,45 @@
     outline: 2px solid rgb(var(--color-accent-soft));
     outline-offset: 3px;
   }
+
+  /* Anchor jumps (#work, #experience...) land just below the sticky navbar.
+     Lenis reads this too, so smooth and native scrolling stop in the same place. */
+  section[id],
+  main[id] {
+    scroll-margin-top: 5rem;
+  }
+}
+
+@layer components {
+  /*
+   * A section that flips from light to dark (Experience). Children color
+   * themselves with the inv-* Tailwind colors, which read these variables, and
+   * use transition-colors, so everything inverts together when the section's
+   * data-inverted attribute changes.
+   */
+  .invertible {
+    --inv-bg: var(--color-canvas);
+    --inv-fg: var(--color-ink);
+    --inv-muted: var(--color-muted);
+    --inv-line: var(--color-line);
+    --inv-ghost: var(--color-ghost);
+    --inv-chip: var(--color-surface);
+    --inv-accent: var(--color-accent);
+    background-color: rgb(var(--inv-bg));
+    color: rgb(var(--inv-fg));
+    transition:
+      background-color var(--dur-base) var(--ease-page),
+      color var(--dur-base) var(--ease-page);
+  }
+  .invertible[data-inverted="true"] {
+    --inv-bg: var(--color-ink);
+    --inv-fg: var(--color-canvas);
+    --inv-muted: var(--color-ink-muted);
+    --inv-line: var(--color-ink-line);
+    --inv-ghost: var(--color-ink-surface);
+    --inv-chip: var(--color-ink-surface);
+    --inv-accent: var(--color-accent-soft);
+  }
 }
 
 @layer utilities {
