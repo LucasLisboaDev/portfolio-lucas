@@ -137,7 +137,7 @@ export default function CaseStudyPage({ params }: Params) {
                 dark ? "bg-ink text-canvas" : "bg-surface text-ink",
               )}
             >
-              <div className={cn("flex justify-between gap-4 text-meta", dark ? "text-ink-muted" : "text-muted")}>
+              <div className={cn("flex justify-between gap-4 text-meta", dark ? "text-ink-muted" : "text-ink-soft")}>
                 <span>
                   /{num} · {project.category}
                 </span>

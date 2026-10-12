@@ -12,7 +12,7 @@ The portfolio follows an editorial, monochrome, motion led style inspired by Dri
 | ghost | `#EDEBEA` | `text-ghost` | Decorative watermark words only, always `aria-hidden` |
 | ink | `#0A0909` | `text-ink`, `bg-ink` | Primary text, dark pills, inverted sections |
 | ink soft | `#4A4645` | `text-ink-soft` | Long-form body copy |
-| muted | `#707070` | `text-muted` | Secondary text on light backgrounds (4.9:1, passes AA) |
+| muted | `#707070` | `text-muted` | Secondary text on the canvas (4.9:1, passes AA). Not on `surface` (4.43:1): use ink soft there |
 | ink muted | `#A3A09D` | `text-ink-muted` | Secondary text inside dark sections |
 | ink surface | `#1B1817` | `bg-ink-surface` | Cards inside dark sections |
 | ink line | `#2A2726` | `border-ink-line` | Dividers inside dark sections |

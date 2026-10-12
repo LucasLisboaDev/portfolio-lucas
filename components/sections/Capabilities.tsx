@@ -84,7 +84,7 @@ export default function Capabilities() {
                         onClick={() => setOpen(isOpen ? null : i)}
                         className="flex min-h-11 w-full items-center gap-5 px-4 py-6 text-left md:gap-7 md:px-8 md:py-[30px]"
                       >
-                        <span className="w-7 shrink-0 text-sm opacity-55">{pad2(i + 1)}</span>
+                        <span className="w-7 shrink-0 text-sm opacity-70">{pad2(i + 1)}</span>
                         <span className="text-display stretch-normal flex-1 text-[clamp(1.375rem,3vw,2.4rem)]">
                           {c.title}
                         </span>

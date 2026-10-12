@@ -203,11 +203,11 @@ export default function TalkToMaya() {
       <div className="mx-auto max-w-content px-gutter-sm md:px-gutter">
         <Reveal className="grid items-center gap-8 rounded-card bg-surface p-7 md:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] md:gap-12 md:p-16">
           <div className="order-2 flex flex-col gap-5 md:order-1">
-            <span className="text-display stretch-normal text-meta tracking-[0.08em] text-accent">/Talk to Maya</span>
+            <span className="text-display stretch-normal text-meta tracking-[0.08em] text-accent-deep">/Talk to Maya</span>
             <h2 id="maya-h" className="font-display text-[28px] font-bold leading-[1.08] tracking-[-0.02em] md:text-[44px]">
               Ask my AI voice agent about my work, in real time.
             </h2>
-            <p className="max-w-[520px] text-sm leading-[1.65] text-muted md:text-base">
+            <p className="max-w-[520px] text-sm leading-[1.65] text-ink-soft md:text-base">
               I built Maya on ElevenLabs so visitors can ask about my background, projects, and experience out
               loud. Your browser will ask for microphone access. Nothing is recorded by this site, and audio is
               handled by ElevenLabs under their terms.

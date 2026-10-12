@@ -180,7 +180,7 @@ function DataTable({ table, caption }: { table: ProjectTable; caption: string })
               <th
                 key={h}
                 scope="col"
-                className="whitespace-nowrap px-4 py-3.5 text-meta font-semibold uppercase tracking-[0.06em] text-muted"
+                className="whitespace-nowrap px-4 py-3.5 text-meta font-semibold uppercase tracking-[0.06em] text-ink-soft"
               >
                 {h}
               </th>

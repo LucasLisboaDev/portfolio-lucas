@@ -38,7 +38,8 @@ const ghostColor: Record<Tone, string> = {
 
 const metaColor: Record<Tone, string> = {
   light: "text-muted",
-  surface: "text-muted",
+  // muted (#707070) is only 4.43:1 on the warm surface, below AA; ink-soft passes
+  surface: "text-ink-soft",
   dark: "text-ink-muted",
   invert: "text-inv-muted transition-colors duration-base ease-page",
 };

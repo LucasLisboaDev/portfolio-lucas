@@ -100,7 +100,7 @@ export default function WorkGrid({ cards, categories }: WorkGridProps) {
                     : "border-line bg-transparent text-ink hover:border-ink",
                 )}
               >
-                {chip.label} <span className="text-xs opacity-55">{pad2(chip.count)}</span>
+                {chip.label} <span className="text-xs opacity-70">{pad2(chip.count)}</span>
               </button>
             );
           })}

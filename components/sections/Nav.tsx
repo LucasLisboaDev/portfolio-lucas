@@ -13,8 +13,7 @@ const pad = (n: number) => String(n).padStart(2, "0");
  * menu is interactive.
  *
  * Contact lives in the "Let's Talk" button rather than the link list, as in
- * the approved design. About still points at the previous section's id until
- * it is rebuilt in Phase 5.
+ * the approved design.
  */
 export const navLinks: NavLink[] = [
   { href: "#work", label: "Work", count: pad(githubProjects.length) },

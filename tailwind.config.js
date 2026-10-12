@@ -56,27 +56,6 @@ module.exports = {
           accent: 'rgb(var(--inv-accent) / <alpha-value>)',
         },
 
-        // ── Legacy slate palette ─────────────────────────────────────────
-        // Still used by the current sections. Remove once every section has
-        // been rebuilt in Phases 2 to 5.
-        purple: {
-          50: '#F8FAFC',
-          100: '#F1F5F9',
-          200: '#E2E8F0',
-          primary: '#334155',
-          light: '#64748B',
-          dark: '#0F172A',
-        },
-        teal: {
-          50: '#F8FAFC',
-          100: '#F1F5F9',
-          200: '#E2E8F0',
-          primary: '#475569',
-          light: '#94A3B8',
-        },
-        blue: {
-          light: '#F8FAFC',
-        },
       },
       fontFamily: {
         sans: ['var(--font-sans)', ...defaultTheme.fontFamily.sans],
