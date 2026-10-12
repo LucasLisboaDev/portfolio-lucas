@@ -1,3 +1,16 @@
+Files covered by this notice
+======================================
+Every font file in this repository is derived from Archivo or Inter, both
+under the SIL Open Font License 1.1 reproduced below:
+  app/fonts/Archivo-Headline-800-112.woff2   Archivo, static instance, subset
+  app/fonts/Archivo-Display-600-800.woff2    Archivo, width and weight trimmed
+  app/fonts/Inter-400-700.woff2              Inter, weight trimmed
+  lib/og/Inter-Medium.ttf                    Inter 500, static, subset
+  scripts/font-sources/*.woff2               Archivo and Inter variable, Latin subset
+The derived files are produced by scripts/build-brand-assets.py and keep the
+original font names' copyright notices.
+
+
 Archivo Variable (latin subset)
 ======================================
 Copyright 2020 The Archivo Project Authors (https://github.com/Omnibus-Type/Archivo) Archivo-Italic[wdth,wght].ttf: Copyright 2020 The Archivo Project Authors (https://github.com/Omnibus-Type/Archivo)

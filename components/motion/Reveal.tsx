@@ -1,7 +1,7 @@
 "use client";
 
 import { m } from "motion/react";
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { distance, duration, ease, viewport } from "@/lib/motion";
 
 const tags = {
@@ -35,6 +35,11 @@ type RevealProps = {
  *
  * Do not wrap the hero headline or other above-the-fold LCP content in Reveal:
  * it starts at opacity 0, which would delay the first meaningful paint.
+ *
+ * Keyboard safety: if focus lands inside before the element has scrolled far
+ * enough into view (a Tab press only scrolls the focused control to the edge
+ * of the screen), it reveals immediately, so a focus ring is never drawn on
+ * an invisible control.
  */
 export default function Reveal({
   children,
@@ -46,11 +51,14 @@ export default function Reveal({
   id,
 }: RevealProps) {
   const Tag = tags[as] as typeof m.div;
+  const [focused, setFocused] = useState(false);
   return (
     <Tag
       id={id}
       className={className}
+      onFocusCapture={focused ? undefined : () => setFocused(true)}
       initial={{ opacity: 0, y }}
+      animate={focused ? { opacity: 1, y: 0 } : undefined}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: viewport.once, amount }}
       transition={{ duration: duration.base, ease: ease.reveal, delay }}

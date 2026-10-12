@@ -30,10 +30,10 @@ All fonts are self-hosted in `app/fonts` (SIL Open Font License) and loaded with
 | File | What it is | Size | Loading |
 |---|---|---|---|
 | `Archivo-Headline-800-112.woff2` | Static Archivo, weight 800, width 112%, overlaps merged, Basic Latin | 7 KB | Preloaded |
-| `Archivo-Variable-latin.woff2` | Full variable Archivo, weight 100 to 900, width 62 to 125% | 88 KB | On first use |
-| `Inter-Variable-latin.woff2` | Variable Inter, weight 100 to 900 | 47 KB | Preloaded |
+| `Archivo-Display-600-800.woff2` | Archivo at 100% width, variable weight 600 to 800 | 23 KB | On first use |
+| `Inter-400-700.woff2` | Inter, variable weight 400 to 700 | 35 KB | Preloaded |
 
-`text-display` and `text-outline` use the headline file, which is all the hero needs. `stretch-normal` and the `font-display` Tailwind family use the variable file. For display text above the fold, prefer `text-display` or `font-headline` so the 88 KB file stays off the critical path. Do not add "Arial Black" to a `next/font` fallback list: it is written unquoted into a CSS variable and the minifier reads "Black" as a color, which breaks the whole font stack.
+`text-display` and `text-outline` use the headline file, which is all the hero needs. `stretch-normal` and the `font-display` Tailwind family use the display file. That file only contains normal width and weights 600 to 800, so a new design that needs another weight or width means regenerating it with `scripts/build-brand-assets.py` (the full variable fonts live in `scripts/font-sources`). For display text above the fold, prefer `text-display` or `font-headline` so only the 7 KB headline file is on the critical path. Do not add "Arial Black" to a `next/font` fallback list: it is written unquoted into a CSS variable and the minifier reads "Black" as a color, which breaks the whole font stack.
 
 | Role | Font | Class | Size |
 |---|---|---|---|

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { CSSProperties } from "react";
 import { notFound } from "next/navigation";
 import CaseSections from "@/components/case-study/CaseSections";
 import { BackToWork, NextProjectLink } from "@/components/case-study/CaseNavLinks";
@@ -12,6 +13,9 @@ import { PROJECT_TITLE, VT_ATTR } from "@/lib/transitions";
 
 type Params = { params: { slug: string } };
 
+/** Entrance delay for a .rise-in element, in seconds. */
+const rise = (s: number) => ({ "--d": `${s}s` }) as CSSProperties;
+
 /** Every case study is generated at build time; unknown slugs return 404. */
 export const dynamicParams = false;
 
@@ -23,14 +27,21 @@ export function generateMetadata({ params }: Params): Metadata {
   const data = getProject(params.slug);
   if (!data) return {};
   const { project } = data;
+  const title = `${project.title} | Case Study | Lucas Lisboa`;
+  const description = projectBlurb(project);
+  // The social image comes from ./opengraph-image.tsx; Next adds it automatically.
   return {
-    title: `${project.title} | Case Study | Lucas Lisboa`,
+    title,
     description: project.summary,
+    alternates: { canonical: `/work/${project.id}` },
     openGraph: {
-      title: `${project.title} | Case Study`,
-      description: project.summary,
       type: "article",
+      siteName: "Lucas Lisboa Alves",
+      title,
+      description,
+      url: `/work/${project.id}`,
     },
+    twitter: { card: "summary_large_image", title, description },
   };
 }
 
@@ -72,10 +83,13 @@ export default function CaseStudyPage({ params }: Params) {
       <main id="main" className="bg-canvas">
         <article>
           <section className="mx-auto flex max-w-content flex-col gap-8 px-gutter-sm pt-12 md:px-gutter md:pt-[72px]">
-            <Reveal className="flex flex-wrap gap-2">
+            {/* The header uses the CSS .rise-in entrance instead of Reveal, so it is
+                visible at first paint (the summary is usually the LCP element
+                on phones) and needs no JavaScript to appear. */}
+            <div className="rise-in flex flex-wrap gap-2">
               <Tag>{project.category}</Tag>
               <Tag>{project.subtitle}</Tag>
-            </Reveal>
+            </div>
 
             <div className="flex flex-col gap-4 md:flex-row md:flex-wrap md:items-end md:gap-6">
               <h1
@@ -95,7 +109,10 @@ export default function CaseStudyPage({ params }: Params) {
               <span className="text-base text-muted md:pb-3.5">/Case Study</span>
             </div>
 
-            <Reveal className="grid items-end gap-8 md:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] md:gap-14">
+            <div
+              className="rise-in grid items-end gap-8 md:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] md:gap-14"
+              style={rise(0.08)}
+            >
               <p className="text-lg leading-[1.6] text-ink-soft md:text-xl">{project.summary}</p>
               <div className="flex flex-wrap gap-3">
                 {project.liveUrl && (
@@ -107,9 +124,9 @@ export default function CaseStudyPage({ params }: Params) {
                   GitHub
                 </PillButton>
               </div>
-            </Reveal>
+            </div>
 
-            <Reveal>
+            <div className="rise-in" style={rise(0.16)}>
               <dl className="mt-2 grid grid-cols-2 border-y border-line md:grid-cols-4">
                 {meta.map((m, i) => (
                   <div
@@ -126,7 +143,7 @@ export default function CaseStudyPage({ params }: Params) {
                   </div>
                 ))}
               </dl>
-            </Reveal>
+            </div>
           </section>
 
           {/* Typographic cover: the project's one-line pitch over its outlined name */}

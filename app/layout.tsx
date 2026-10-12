@@ -1,5 +1,7 @@
 import "./globals.css";
+import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
+import { SITE_URL } from "@/lib/site-url";
 import MotionProvider from "@/components/motion/MotionProvider";
 import SmoothScroll from "@/components/motion/SmoothScroll";
 import ViewTransitions from "@/components/motion/ViewTransitions";
@@ -20,7 +22,7 @@ import ViewTransitions from "@/components/motion/ViewTransitions";
  * variable fonts are built from. That serves two purposes:
  * - Outlined words (LUCAS, the footer wordmark) render cleanly. A stroke on
  *   the variable font traced its internal overlaps (a stray box in the "A").
- * - The hero only needs this one tiny file, instead of the 88 KB variable
+ * - The hero only needs this one tiny file, instead of the larger variable
  *   font, which keeps Largest Contentful Paint fast on slow connections.
  * Used by .text-display and .text-outline in globals.css. Preloaded.
  */
@@ -33,34 +35,58 @@ const headline = localFont({
 });
 
 /**
- * Display: the full variable Archivo (weight 100–900, width 62–125%), for
- * everything that is not the 800/112% headline style: section labels at
- * normal width, card titles at 700, and so on. Mostly below the fold, so it
- * is not preloaded; it loads as soon as the page first uses it.
+ * Display: Archivo at normal width (100%), variable from weight 600 to 800,
+ * for everything that is not the 800/112% headline style: section labels,
+ * card titles, case study headings. Those are the only widths and weights
+ * the design uses, so the font is trimmed to them (23 KB instead of 88 KB;
+ * see scripts/build-brand-assets.py). Not preloaded: it is mostly needed
+ * below the fold.
  */
 const display = localFont({
-  src: "./fonts/Archivo-Variable-latin.woff2",
+  src: "./fonts/Archivo-Display-600-800.woff2",
   variable: "--font-display",
-  weight: "100 900",
+  weight: "600 800",
   display: "swap",
-  declarations: [{ prop: "font-stretch", value: "62% 125%" }],
   fallback: ["Arial", "system-ui", "sans-serif"],
   preload: false,
 });
 
-/** Body and UI: Inter variable, weight 100–900. */
+/** Body and UI: Inter, variable from weight 400 to 700 (35 KB). */
 const sans = localFont({
-  src: "./fonts/Inter-Variable-latin.woff2",
+  src: "./fonts/Inter-400-700.woff2",
   variable: "--font-sans",
-  weight: "100 900",
+  weight: "400 700",
   display: "swap",
   fallback: ["system-ui", "-apple-system", "Segoe UI", "Arial", "sans-serif"],
 });
 
-export const metadata = {
+const description =
+  "AI Engineer with full-stack experience building production applications across web, mobile, data, and intelligent systems, from architecture to cloud deployment.";
+
+export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "Lucas Lisboa Alves | AI Engineer",
-  description:
-    "AI Engineer with full-stack experience building production applications across web, mobile, data, and intelligent systems, from architecture to cloud deployment.",
+  description,
+  applicationName: "Lucas Lisboa Alves",
+  authors: [{ name: "Lucas Lisboa Alves" }],
+  openGraph: {
+    type: "website",
+    siteName: "Lucas Lisboa Alves",
+    title: "Lucas Lisboa Alves | AI Engineer",
+    description,
+    locale: "en_US",
+    url: "/",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Lucas Lisboa Alves | AI Engineer",
+    description,
+  },
+};
+
+/** Colors the browser chrome on phones to match the page. */
+export const viewport: Viewport = {
+  themeColor: "#FDFDFD",
 };
 
 export default function RootLayout({

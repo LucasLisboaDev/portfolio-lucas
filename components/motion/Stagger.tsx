@@ -1,7 +1,7 @@
 "use client";
 
 import { m } from "motion/react";
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { fadeUp, staggerParent, viewport } from "@/lib/motion";
 
 const tags = {
@@ -28,7 +28,8 @@ type StaggerProps = {
 /**
  * Container that reveals its StaggerItem children one after another
  * (80ms apart) when it scrolls into view. Children that are not StaggerItem
- * render normally.
+ * render normally. Like Reveal, it reveals at once if keyboard focus lands
+ * inside before it has scrolled into view.
  */
 export function Stagger({
   children,
@@ -39,11 +40,14 @@ export function Stagger({
   ...rest
 }: StaggerProps) {
   const Tag = tags[as] as typeof m.div;
+  const [focused, setFocused] = useState(false);
   return (
     <Tag
       className={className}
+      onFocusCapture={focused ? undefined : () => setFocused(true)}
       variants={staggerParent(delay)}
       initial="hidden"
+      animate={focused ? "visible" : undefined}
       whileInView="visible"
       viewport={{ once: viewport.once, amount }}
       {...rest}

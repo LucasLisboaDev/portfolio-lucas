@@ -61,7 +61,7 @@ module.exports = {
         sans: ['var(--font-sans)', ...defaultTheme.fontFamily.sans],
         display: ['var(--font-display)', ...defaultTheme.fontFamily.sans],
         // Static Archivo 800 at 112% width (7 KB, preloaded). Use for any
-        // display text above the fold so the 88 KB variable font stays off
+        // display text above the fold so the display font stays off
         // the critical path.
         headline: ['var(--font-headline)', 'var(--font-display)', ...defaultTheme.fontFamily.sans],
       },
