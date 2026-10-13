@@ -16,25 +16,30 @@ export interface ColorScheme {
   glow: string;
 }
 
-/** Matches site tokens: slate charcoal / steel grey professional palette. */
+/**
+ * Matches the redesign tokens: the warm accent family (accent #9C6455,
+ * accent deep #5E3A30, accent soft #CEB3A6). Each state shifts the balance so
+ * listening, thinking and speaking stay distinguishable. Error stays red so a
+ * failure is never mistaken for a normal state.
+ */
 const portfolioColors: Record<OrbState, ColorScheme> = {
   LISTENING: {
-    primary: "#64748B",
-    secondary: "#334155",
-    accent: "#94A3B8",
-    glow: "#64748B",
+    primary: "#9C6455",
+    secondary: "#5E3A30",
+    accent: "#CEB3A6",
+    glow: "#9C6455",
   },
   THINKING: {
-    primary: "#475569",
-    secondary: "#1E293B",
-    accent: "#94A3B8",
-    glow: "#475569",
+    primary: "#5E3A30",
+    secondary: "#2A1A15",
+    accent: "#9C6455",
+    glow: "#5E3A30",
   },
   SPEAKING: {
-    primary: "#94A3B8",
-    secondary: "#334155",
-    accent: "#CBD5E1",
-    glow: "#94A3B8",
+    primary: "#CEB3A6",
+    secondary: "#9C6455",
+    accent: "#F4E9E3",
+    glow: "#CEB3A6",
   },
   ERROR: {
     primary: "#dc2626",

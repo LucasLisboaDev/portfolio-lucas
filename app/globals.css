@@ -4,8 +4,288 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * Design tokens (Dymas Alfin style). Colors are RGB channels so Tailwind's
+ * opacity modifiers work (bg-ink/80). Full usage rules live in design-tokens.md.
+ */
 @layer base {
+  :root {
+    /* Light surfaces */
+    --color-canvas: 253 253 253; /* #FDFDFD page background */
+    --color-surface: 244 242 240; /* #F4F2F0 cards, inputs, panels */
+    --color-line: 229 226 223; /* #E5E2DF dividers and row borders */
+    --color-ghost: 237 235 234; /* #EDEBEA decorative watermark words only */
+
+    /* Ink (text and dark sections) */
+    --color-ink: 10 9 9; /* #0A0909 primary text, dark pills, inverted sections */
+    --color-ink-soft: 74 70 69; /* #4A4645 long-form body copy */
+    --color-ink-muted: 163 160 157; /* #A3A09D secondary text on dark */
+    --color-ink-surface: 27 24 23; /* #1B1817 cards inside dark sections */
+    --color-ink-line: 42 39 38; /* #2A2726 dividers inside dark sections */
+    --color-muted: 112 112 112; /* #707070 secondary text, 4.9:1 on canvas */
+
+    /* Warm accent family */
+    --color-accent: 156 100 85; /* #9C6455 links, labels, highlights, 6.2:1 on canvas */
+    --color-accent-deep: 94 58 48; /* #5E3A30 hover and active states */
+    --color-accent-soft: 206 179 166; /* #CEB3A6 focus rings, decorative only */
+
+    /* Status */
+    --color-status: 34 197 94; /* #22C55E the "Available" dot only */
+
+    /* Motion (mirrors lib/motion.ts for CSS-only transitions) */
+    --ease-reveal: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-page: cubic-bezier(0.65, 0, 0.35, 1);
+    --dur-fast: 250ms;
+    --dur-base: 600ms;
+    --dur-slow: 900ms;
+
+    color-scheme: light;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
   body {
-    @apply bg-transparent text-gray-900;
+    @apply bg-canvas text-ink antialiased;
+  }
+
+  :focus-visible {
+    outline: 2px solid rgb(var(--color-accent-soft));
+    outline-offset: 3px;
+  }
+
+  /* Anchor jumps (#work, #experience...) land just below the sticky navbar.
+     Lenis reads this too, so smooth and native scrolling stop in the same place. */
+  section[id],
+  main[id] {
+    scroll-margin-top: 5rem;
+  }
+}
+
+@layer components {
+  /*
+   * A section that flips from light to dark (Experience). Children color
+   * themselves with the inv-* Tailwind colors, which read these variables, and
+   * use transition-colors, so everything inverts together when the section's
+   * data-inverted attribute changes.
+   */
+  .invertible {
+    --inv-bg: var(--color-canvas);
+    --inv-fg: var(--color-ink);
+    --inv-muted: var(--color-muted);
+    --inv-line: var(--color-line);
+    --inv-ghost: var(--color-ghost);
+    --inv-chip: var(--color-surface);
+    --inv-accent: var(--color-accent);
+    background-color: rgb(var(--inv-bg));
+    color: rgb(var(--inv-fg));
+    transition:
+      background-color var(--dur-base) var(--ease-page),
+      color var(--dur-base) var(--ease-page);
+  }
+  .invertible[data-inverted="true"] {
+    --inv-bg: var(--color-ink);
+    --inv-fg: var(--color-canvas);
+    --inv-muted: var(--color-ink-muted);
+    --inv-line: var(--color-ink-line);
+    --inv-ghost: var(--color-ink-surface);
+    --inv-chip: var(--color-ink-surface);
+    --inv-accent: var(--color-accent-soft);
+  }
+}
+
+@layer utilities {
+  /* Display type: Archivo 800, expanded (112%), all caps. Uses the tiny static
+     headline instance (Basic Latin only); characters outside it, like "·",
+     fall back to the display font at normal width. */
+  .text-display {
+    font-family: var(--font-headline), var(--font-display), "Arial Black", Arial, sans-serif;
+    font-stretch: 112%;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    line-height: 0.92;
+  }
+
+  /* Normal-width display type (section labels). Switches to the display
+     font, which is Archivo at 100% width. Must stay after .text-display. */
+  .stretch-normal {
+    font-family: var(--font-display), Arial, sans-serif;
+    font-stretch: 100%;
+  }
+
+  /* Outlined display text. Only use at headline scale, next to a solid word.
+     The static headline font has its overlapping shapes merged, so the stroke
+     draws a clean outline (the variable font showed stray lines inside "A"). */
+  .text-outline,
+  .text-outline-light {
+    font-family: var(--font-headline), var(--font-display), "Arial Black", sans-serif;
+    font-weight: 800;
+    color: transparent;
+  }
+  /* Stroke scales with the type: 2px at headline sizes, thinner on small
+     screens so letters do not clog up. */
+  .text-outline {
+    -webkit-text-stroke: clamp(1px, 0.028em, 2px) rgb(var(--color-ink));
+  }
+  .text-outline-light {
+    -webkit-text-stroke: clamp(1px, 0.028em, 2px) rgb(var(--color-canvas));
+  }
+}
+
+/*
+ * Hero intro (Phase 2). Pure CSS so it starts on the very first paint, before
+ * any JavaScript loads, and the whole sequence finishes within 1.6s:
+ * LUCAS letters from 0.15s, LISBOA from 0.35s (30ms apart), portrait rises
+ * at 0.5s, then the role, intro, buttons and links stagger in from 0.8s.
+ * --d is the start delay and --i the letter index, set inline per element.
+ */
+.hero-mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding: 0 0.02em 0.04em;
+}
+.hero-letter {
+  display: inline-block;
+  animation: hero-up var(--dur-slow) var(--ease-reveal) both;
+  animation-delay: calc(var(--d, 0s) + var(--i, 0) * 30ms);
+}
+.hero-rise {
+  animation: hero-rise var(--dur-slow) var(--ease-reveal) 0.5s both;
+}
+.hero-in {
+  animation: hero-rise var(--dur-base) var(--ease-reveal) both;
+  animation-delay: var(--d, 0.8s);
+}
+@keyframes hero-up {
+  from {
+    transform: translateY(105%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Above-the-fold entrance for pages without a masked hero (case studies).
+   Moves only, never fades: text that starts at opacity 0 is not counted as
+   painted, which would push Largest Contentful Paint back to whenever the
+   animation finishes. Sliding visible text into place keeps LCP at first
+   paint, and transforms never cause layout shift. */
+.rise-in {
+  animation: rise-in var(--dur-slow) var(--ease-reveal) both;
+  animation-delay: var(--d, 0s);
+}
+@keyframes rise-in {
+  from {
+    transform: translateY(28px);
+  }
+  to {
+    transform: none;
+  }
+}
+
+/* Idle Maya orb in the brand palette */
+@keyframes orb-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.06);
+  }
+}
+@keyframes orb-ring {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+.orb-breathe {
+  animation: orb-breathe 4.5s ease-in-out infinite;
+}
+.orb-ring {
+  animation: orb-ring 3s ease-out infinite;
+}
+
+/*
+ * Page transitions (Phase 3), driven by the View Transitions API in
+ * components/motion/ViewTransitions.tsx. The old page fades out to reveal the
+ * ink backdrop, the new page wipes up from the bottom, and the shared
+ * "project-title" element morphs between its two positions on top.
+ * Never runs under reduced motion (navigate() skips the API entirely).
+ */
+::view-transition {
+  background: rgb(var(--color-ink));
+}
+::view-transition-old(root) {
+  animation: vt-fade-out 0.3s var(--ease-page) both;
+}
+::view-transition-new(root) {
+  animation: vt-wipe-up 0.6s var(--ease-page) 0.18s both;
+}
+::view-transition-group(project-title) {
+  animation-duration: 0.78s;
+  animation-timing-function: var(--ease-reveal);
+}
+/*
+ * The flying title stays legible over any background: both snapshots are
+ * flattened to pure white (brightness 0, then invert) and the group is
+ * blended with "difference", so it reads light over the ink backdrop and
+ * dark over the light page as the wipe passes beneath it, landing exactly
+ * on the real title's colors.
+ */
+::view-transition-group(project-title) {
+  mix-blend-mode: difference;
+}
+::view-transition-old(project-title),
+::view-transition-new(project-title) {
+  height: 100%;
+  filter: brightness(0) invert(1);
+  animation-duration: 0.78s;
+  animation-timing-function: var(--ease-reveal);
+}
+@keyframes vt-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes vt-wipe-up {
+  from {
+    clip-path: inset(100% 0 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* Respect the visitor's reduced motion setting everywhere CSS animates.
+   Delays are zeroed too, otherwise delayed entrances would sit invisible
+   for a moment and then pop in. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+    scroll-behavior: auto !important;
   }
 }
